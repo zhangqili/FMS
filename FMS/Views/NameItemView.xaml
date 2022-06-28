@@ -10,7 +10,6 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
-    <!--dadawwadwadadwa-->
     <UserControl.DataContext>
         <viewModels:NameItemViewModel></viewModels:NameItemViewModel>
     </UserControl.DataContext>
