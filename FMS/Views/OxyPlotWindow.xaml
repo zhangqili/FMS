@@ -1,0 +1,26 @@
+﻿<Window x:Class="FMS.Views.OxyPlotWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FMS.Views"
+        xmlns:oxy ="http://oxyplot.org/wpf"
+        xmlns:viewModels="clr-namespace:FMS.ViewModels"
+        mc:Ignorable="d"
+        Title="图表" Height="450" Width="800" Closed="Window_Closed">
+    <Window.DataContext>
+        <viewModels:OxyPlotWindowViewModel></viewModels:OxyPlotWindowViewModel>
+    </Window.DataContext>
+    <Grid>
+        <TabControl>
+            <TabItem Header="按排名">
+                <Grid>
+                    <oxy:PlotView Model="{Binding RankModel}"></oxy:PlotView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="按分数">
+                <oxy:PlotView Model="{Binding ScoreModel}"></oxy:PlotView>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
