@@ -1,0 +1,209 @@
+﻿<UserControl x:Class="FMS.Views.MainWindowView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:v="clr-namespace:FMS.Views"
+             xmlns:viewModels="clr-namespace:FMS.ViewModels"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+
+
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewModels:MainWindowViewModel></viewModels:MainWindowViewModel>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC"/>
+        <Style x:Key="TabControlStartStyle" TargetType="{x:Type TabControl}">
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="{StaticResource TabItem.Selected.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TabItem.Selected.Border}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="ColumnDefinition0"/>
+                                <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                                <RowDefinition x:Name="RowDefinition1" Height="0"/>
+                            </Grid.RowDefinitions>
+                            <TabPanel x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
+                            <TextBlock Text="Friend Management System" Width="{Binding ElementName=headerPanel, Path=Width}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Foreground="White" FontSize="30" FontWeight="Normal" FontFamily="Microsoft YaHei UI Light">
+                                <TextBlock.Background>
+                                    <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                        <GradientStop Color="#FF0078D1" Offset="1"/>
+                                        <GradientStop Color="Blue" Offset="0"/>
+                                    </LinearGradientBrush>
+                                </TextBlock.Background>
+                                <TextBlock.LayoutTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="270"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </TextBlock.LayoutTransform></TextBlock>
+                            <Border x:Name="contentPanel" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="2">
+                                <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="TabStripPlacement" Value="Bottom">
+                                <Setter Property="Grid.Row" TargetName="headerPanel" Value="1"/>
+                                <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
+                                <Setter Property="Margin" TargetName="headerPanel" Value="2,0,2,2"/>
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Left">
+                                <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                                <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                                <Setter Property="Grid.Column" TargetName="headerPanel" Value="0"/>
+                                <Setter Property="Grid.Column" TargetName="contentPanel" Value="1"/>
+                                <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
+                                <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
+                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                                <Setter Property="Margin" TargetName="headerPanel" Value="2,2,0,2"/>
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Right">
+                                <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                                <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                                <Setter Property="Grid.Column" TargetName="headerPanel" Value="1"/>
+                                <Setter Property="Grid.Column" TargetName="contentPanel" Value="0"/>
+                                <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
+                                <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
+                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                                <Setter Property="Margin" TargetName="headerPanel" Value="0,2,2,2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Menu.Static.Background" Color="#FFF0F0F0"/>
+        <Style x:Key="MenuStyle" TargetType="{x:Type Menu}">
+            <Setter Property="Background" Value="{StaticResource Menu.Static.Background}"/>
+            <Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}"/>
+            <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MenuFontSizeKey}}"/>
+            <Setter Property="FontStyle" Value="{DynamicResource {x:Static SystemFonts.MenuFontStyleKey}}"/>
+            <Setter Property="FontWeight" Value="{DynamicResource {x:Static SystemFonts.MenuFontWeightKey}}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Menu}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+        <Menu Style="{DynamicResource MenuStyle}" DockPanel.Dock="Top">
+            <MenuItem Background="#FF0078D4" Width="40" Margin="-1"  HorizontalContentAlignment="Center">
+                <MenuItem.Header>
+                    <TextBlock Text="文件" RenderTransformOrigin="0.5,0.5" Foreground="White">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform X="1"/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform></TextBlock>
+                </MenuItem.Header>
+                <MenuItem Header="新建" Padding="0,0,2,0">
+                    <MenuItem Header="日期" Command="{Binding AddDateItemCommand}"></MenuItem>
+                    <MenuItem Header="姓名" Command="{Binding AddNameItemCommand}"></MenuItem>
+                </MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="保存" Command="{Binding SaveCommand}"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="导入" Command="{Binding ImportCommand}"></MenuItem>
+                <MenuItem Header="导出" Command="{Binding LegacyExportCommand}"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="输出总榜" Command="{Binding ExportCommand}"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="在系统中打开源文件" Command="{Binding OpenInSystemCommand}"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="重启" Command="{Binding RestartCommand}"></MenuItem>
+                <MenuItem Header="退出" Command="{Binding ExitCommand}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="工具">
+                <MenuItem Header="图表" Command="{Binding OpenOxyPlotCommand}"></MenuItem>
+                <MenuItem Header="原始视图" Command="{Binding RawViewCommand}"></MenuItem>
+                <MenuItem Header="调试" Command="{Binding DebugCommand}"></MenuItem>
+                <MenuItem Header="选项" Command="{Binding SettingsCommand}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="帮助">
+                <MenuItem Header="关于" Command="{Binding AboutCommand}"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>占用内存:</TextBlock>
+                    <TextBlock></TextBlock>
+                    <TextBlock>MB</TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>启动用时:</TextBlock>
+                    <TextBlock Text="{Binding StartTime}"></TextBlock>
+                    <TextBlock>s</TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <!--<StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>日期</TextBlock>
+                    <TextBlock Text=""></TextBlock>
+                    <TextBlock>项</TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>姓名</TextBlock>
+                    <TextBlock Text=""></TextBlock>
+                    <TextBlock>项</TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>总计</TextBlock>
+                    <TextBlock Text=""></TextBlock>
+                    <TextBlock>项</TextBlock>
+                </StackPanel>
+            </StatusBarItem>-->
+        </StatusBar>
+        <TabControl Style="{DynamicResource TabControlStartStyle}" Grid.Row="1" TabStripPlacement="Left" DockPanel.Dock="Top">
+
+            <mah:MetroTabItem Header="日期">
+                <v:DateItemView>
+                    
+                </v:DateItemView>
+            </mah:MetroTabItem>
+            <mah:MetroTabItem Header="姓名">
+                <v:NameItemView>
+
+                </v:NameItemView>
+            </mah:MetroTabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

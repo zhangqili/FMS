@@ -1,0 +1,179 @@
+﻿<Window x:Class="FMS.Views.AddDateItemWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FMS"
+        mc:Ignorable="d"
+        Title="新建日期" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderThickness="8,8,8,47" Grid.RowSpan="3">
+        </Border>
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1" Margin="8,8,8,47" Grid.RowSpan="3">
+        </Border>
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="3" VerticalAlignment="Center">日期</TextBlock>
+                    <DatePicker SelectedDate="{Binding Date}"  Grid.Column="1" Margin="3" Grid.IsSharedSizeScope="True"></DatePicker>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="1" Margin="3" VerticalAlignment="Center">标题</TextBlock>
+                    <TextBox FontSize="14" Text="{Binding Title}" Grid.Row="1" Grid.Column="1" Margin="3" Height="24"></TextBox>
+                </Grid>
+                <Button Command="{Binding ImportCommand}" ToolTip="从剪切板导入" x:Name="importButton" Content="" Margin="3" Grid.Column="2" FontFamily="Segoe MDL2 Assets" FontSize="16" Width="24" Height="24">
+                </Button>
+                <Button Command="{Binding RefreshCommand}" IsDefault="True" ToolTip="刷新" x:Name="refreshButton" Content="" Margin="3" Grid.Column="3" FontFamily="Segoe MDL2 Assets" FontSize="16" Width="24" Height="24">
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Padding="2" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,3,0" Grid.ColumnSpan="3">
+                    <TextBox.Resources>
+                        <VisualBrush x:Key="HintText" Opacity="0.5" Stretch="None" AlignmentX="Left">
+                            <VisualBrush.Visual>
+                                <TextBlock>过滤</TextBlock>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource HintText}"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background" Value="{StaticResource HintText}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Border Margin="3,0,0,3" BorderBrush="#FFACACAC" BorderThickness="1" Grid.Row="1">
+                    <ScrollViewer HorizontalContentAlignment="Stretch" >
+                        <ItemsControl Grid.Row="1" Margin="3" ItemsSource="{Binding OldObservableCollectionByDate}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,3">
+                                        <Grid.Style>
+                                            <Style  TargetType="Grid">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Change}" Value="NEW">
+                                                        <Setter Property="Background" Value="LightGreen"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Change}" Value="BACK">
+                                                        <Setter Property="Background" Value="LightBlue"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Change}" Value="OUT">
+                                                        <Setter Property="Background" Value="OrangeRed"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"></ColumnDefinition>
+                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                            <ColumnDefinition Width="20"></ColumnDefinition>
+                                            <ColumnDefinition Width="45"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock FontSize="16" Text="{Binding Name}"></TextBlock>
+                                        <TextBlock FontSize="14" Grid.Column="1" Text="{Binding Score}"></TextBlock>
+                                        <TextBlock FontSize="14" Grid.Column="2" Text="{Binding Rank}"></TextBlock>
+                                        <TextBlock FontSize="14" Grid.Column="3" Text="{Binding Change}"></TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" Margin="0,0,3,3" BorderBrush="#FFACACAC" BorderThickness="1">
+                    <ScrollViewer HorizontalContentAlignment="Stretch" >
+                        <ItemsControl Grid.Row="1" Margin="3" ItemsSource="{Binding ObservableCollectionByDate}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,3">
+                                        <Grid.Style>
+                                            <Style  TargetType="Grid">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Change}" Value="NEW">
+                                                        <Setter Property="Background" Value="LightGreen"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Change}" Value="BACK">
+                                                        <Setter Property="Background" Value="LightBlue"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Change}" Value="OUT">
+                                                        <Setter Property="Background" Value="OrangeRed"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"></ColumnDefinition>
+                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                            <ColumnDefinition Width="20"></ColumnDefinition>
+                                            <ColumnDefinition Width="45"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock FontSize="16" Text="{Binding Name}"></TextBlock>
+                                        <TextBox BorderThickness="0,0,0,1" FontSize="14" Grid.Column="1" Text="{Binding Score,UpdateSourceTrigger=LostFocus}" GotFocus="TextBox_GotFocus"></TextBox>
+                                        <TextBlock FontSize="14" Grid.Column="2" Text="{Binding Rank}"></TextBlock>
+                                        <TextBlock FontSize="14" Grid.Column="3" Text="{Binding Change}"></TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+                <GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"></GridSplitter>
+            </Grid>
+        </Grid>
+        <TextBlock Margin="12,0,0,8" Grid.Row="1" VerticalAlignment="Center">按Tab可切至下一项，按Shift+Tab可切至上一项</TextBlock>
+        <WrapPanel Margin="0,0,8,8" Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button x:Name="cancelButton" Margin="3" Height="26" Width="89" Click="cancelButton_Click">取消</Button>
+            <Button Command="{Binding OKCommand}" x:Name="oKButton" Margin="3" Height="26" Width="89" Click="oKButton_Click">确定</Button>
+        </WrapPanel>
+    </Grid>
+</Window>

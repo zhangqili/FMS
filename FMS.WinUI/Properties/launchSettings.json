@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FMS.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FMS.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

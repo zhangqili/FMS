@@ -1,0 +1,29 @@
+﻿<Window x:Class="FMS.Views.AddNameItemWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FMS.Views"
+        mc:Ignorable="d"
+        Title="新建姓名" Height="auto" Width="auto" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderThickness="8,8,8,47" Grid.RowSpan="3">
+        </Border>
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1" Margin="8,8,8,47" Grid.RowSpan="3">
+        </Border>
+        <Grid Margin="24,20,24,24">
+            <StackPanel>
+                <TextBlock>请输入姓名</TextBlock>
+                <TextBox Text="{Binding Name}" Height="28" Width="158" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+            </StackPanel>
+        </Grid>
+        <WrapPanel Margin="0,0,8,8" Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button x:Name="cancelButton" Margin="3" Height="26" Width="89" Click="cancelButton_Click">取消</Button>
+            <Button Command="{Binding OKCommand}" x:Name="oKButton" Margin="3" Height="26" Width="89" Click="oKButton_Click">确定</Button>
+        </WrapPanel>
+    </Grid>
+</Window>

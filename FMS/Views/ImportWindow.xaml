@@ -1,0 +1,83 @@
+﻿<Window x:Class="FMS.Views.ImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FMS.Views"
+        mc:Ignorable="d"
+        Title="导入" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderThickness="8,8,8,47" Grid.RowSpan="3">
+        </Border>
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1" Margin="8,8,8,47" Grid.RowSpan="3">
+        </Border>
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border BorderThickness="0" BorderBrush="#FFABADB3" >
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="路径 "></TextBlock>
+                    <TextBlock Text="{Binding FilePath}"/>
+                </StackPanel>
+            </Border>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>姓名</TextBlock>
+                        <TextBlock Text="{Binding Names.Count}"></TextBlock>
+                        <TextBlock>项</TextBlock>
+                    </StackPanel>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Names}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"></TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>日期</TextBlock>
+                        <TextBlock Text="{Binding Dates.Count}"></TextBlock>
+                        <TextBlock>项</TextBlock>
+                    </StackPanel>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Dates}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"></TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Grid>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                <TextBlock>总共</TextBlock>
+                <TextBlock Text="{Binding Count}"></TextBlock>
+                <TextBlock>项</TextBlock>
+            </StackPanel>
+        </Grid>
+        <WrapPanel Margin="0,0,8,8" Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button x:Name="cancelButton" Margin="3" Height="26" Width="89" Click="cancelButton_Click">取消</Button>
+            <Button Command="{Binding OKCommand}" x:Name="oKButton" Margin="3" Height="26" Width="89" Click="oKButton_Click">确定</Button>
+        </WrapPanel>
+    </Grid>
+</Window>
