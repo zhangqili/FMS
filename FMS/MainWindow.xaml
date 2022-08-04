@@ -1,13 +1,110 @@
-﻿<Window x:Class="FMS.MainWindow"
+﻿<mah:MetroWindow x:Class="FMS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMS"
         xmlns:v="clr-namespace:FMS.Views"
+        xmlns:viewModels="clr-namespace:FMS.ViewModels"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Friend ManageMent System"  Height="500" Width="800" MinWidth="800" MinHeight="500" WindowStartupLocation="CenterScreen">
-    <v:MainWindowView>
-        
-    </v:MainWindowView>
-</Window>
+        Title="Friend ManageMent System"  Height="500" Width="800" MinWidth="800" MinHeight="500" Topmost="True" WindowStartupLocation="CenterScreen">
+    <mah:MetroWindow.DataContext>
+        <viewModels:MainWindowViewModel></viewModels:MainWindowViewModel>
+    </mah:MetroWindow.DataContext>
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands ShowLastSeparator="False">
+            <Menu Background="Transparent">
+                <MenuItem Background="Transparent">
+                    <MenuItem.Header>
+                        <TextBlock Foreground="White">文件</TextBlock>
+                    </MenuItem.Header>
+                    <MenuItem Header="新建">
+                        <MenuItem Header="日期" Command="{Binding AddDateItemCommand}"></MenuItem>
+                        <MenuItem Header="姓名" Command="{Binding AddNameItemCommand}"></MenuItem>
+                    </MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="保存" Command="{Binding SaveCommand}"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="导入" Command="{Binding ImportCommand}"></MenuItem>
+                    <MenuItem Header="导出" Command="{Binding LegacyExportCommand}"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="输出总榜" Command="{Binding ExportCommand}"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="在系统中打开源文件" Command="{Binding OpenInSystemCommand}"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="重启" Command="{Binding RestartCommand}"></MenuItem>
+                    <MenuItem Header="退出" Command="{Binding ExitCommand}"></MenuItem>
+                </MenuItem>
+                <MenuItem Background="Transparent">
+                    <MenuItem.Header>
+                        <TextBlock Foreground="White">工具</TextBlock>
+                    </MenuItem.Header>
+                    <MenuItem Header="图表" Command="{Binding OpenOxyPlotCommand}"></MenuItem>
+                    <MenuItem Header="原始视图" Command="{Binding RawViewCommand}"></MenuItem>
+                    <MenuItem Header="调试" Command="{Binding DebugCommand}"></MenuItem>
+                    <MenuItem Header="选项" Command="{Binding SettingsCommand}"></MenuItem>
+                </MenuItem>
+                <MenuItem Background="Transparent">
+                    <MenuItem.Header>
+                        <TextBlock Foreground="White">帮助</TextBlock>
+                    </MenuItem.Header>
+                    <MenuItem Header="关于" Command="{Binding AboutCommand}"></MenuItem>
+                </MenuItem>
+            </Menu>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>占用内存:</TextBlock>
+                    <TextBlock></TextBlock>
+                    <TextBlock>MB</TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>启动用时:</TextBlock>
+                    <TextBlock Text="{Binding StartTime}"></TextBlock>
+                    <TextBlock>s</TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <!--<StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>日期</TextBlock>
+                    <TextBlock Text=""></TextBlock>
+                    <TextBlock>项</TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>姓名</TextBlock>
+                    <TextBlock Text=""></TextBlock>
+                    <TextBlock>项</TextBlock>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>总计</TextBlock>
+                    <TextBlock Text=""></TextBlock>
+                    <TextBlock>项</TextBlock>
+                </StackPanel>
+            </StatusBarItem>-->
+        </StatusBar>
+        <TabControl Style="{DynamicResource MahApps.Styles.TabControl.Animated}" TabStripPlacement="Left" DockPanel.Dock="Top">
+
+            <mah:MetroTabItem Header="日期">
+                <v:DateItemView>
+
+                </v:DateItemView>
+            </mah:MetroTabItem>
+            <mah:MetroTabItem Header="姓名">
+                <v:NameItemView>
+
+                </v:NameItemView>
+            </mah:MetroTabItem>
+        </TabControl>
+    </DockPanel>
+
+</mah:MetroWindow>

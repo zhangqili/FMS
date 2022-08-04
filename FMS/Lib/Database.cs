@@ -1,18 +1,18 @@
-﻿using FMS.Models;
-using Microsoft.Win32;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using FMS.Models;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace FMS.Lib
 {
-    public class Core
+    public class Database
     {
         public XSSFWorkbook Workbook { get; set; }
         public ISheet CoreSheet { get; set; }
@@ -45,7 +45,7 @@ namespace FMS.Lib
         public List<Item> InteralList { get; set; }
         public ObservableCollection<DateItem> ObservableCollectionOfDateItems { get; set; }
         public ObservableCollection<NameItem> ObservableCollectionOfNameItems { get; set; }
-        public Core(string url)
+        public Database(string url)
         {
             Backup(url);
             OpenFile(url);
@@ -279,7 +279,7 @@ namespace FMS.Lib
                                 item.Rank = y;
                             }
                         }
-                        else if(Cell(sourceSheet, x, y) != null)
+                        else if (Cell(sourceSheet, x, y) != null)
                         {
                             AddDate(digitalDate, Cell(sourceSheet, x, y).StringCellValue);
                         }
@@ -555,9 +555,9 @@ namespace FMS.Lib
                 Dates.Add(date);
         }
 
-        public void AddDate(int ddate,string title="")
+        public void AddDate(int ddate, string title = "")
         {
-            Date date = new Date() {DigitalDate = ddate, Title = title};
+            Date date = new Date() { DigitalDate = ddate, Title = title };
             if (!Dates.Contains(date))
                 Dates.Add(date);
         }
@@ -790,7 +790,7 @@ namespace FMS.Lib
                 for (int j = 0; j < nameItems.Count; j++)
                 {
                     var item = new Item { Name = nameItems[j].Name, Rank = j + 1, DigitalDate = DateItems[i].DigitalDate, Point = nameItems[j].CustomValue };
-                    if (nameItems[j].CustomValue==0)
+                    if (nameItems[j].CustomValue == 0)
                     {
                         item.Rank = 0;
                     }
@@ -805,10 +805,11 @@ namespace FMS.Lib
             else
                 return null;
         }
-        
+
         public static DateTime DigitalDateToDateTime(int x)
         {
             return DateTime.ParseExact(x.ToString(), "yyyyMMdd", null);
         }
     }
+
 }

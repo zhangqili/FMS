@@ -91,10 +91,10 @@ namespace FMS.ViewModels
 
         private void Refresh(object parameter)
         {
-            //NewListByDate = NewListByDate.OrderByDescending(x => x.Score).ToList();
+            //NewListByDate = NewListByDate.OrderByDescending(x => x.Point).ToList();
             //for (int i = 0; i < NewListByDate.Count; i++)
             //{
-            //    if (NewListByDate[i].Score != 0)
+            //    if (NewListByDate[i].Point != 0)
             //    {
             //        NewListByDate[i].Rank = i + 1;
             //    }
@@ -104,10 +104,10 @@ namespace FMS.ViewModels
             //    }
             //}
             ObservableCollectionByDate = new ObservableCollection<Item>
-                (ObservableCollectionByDate.OrderByDescending(x => x.Score));
+                (ObservableCollectionByDate.OrderByDescending(x => x.Point));
             for (int i = 0; i < ObservableCollectionByDate.Count; i++)
             {
-                if (ObservableCollectionByDate[i].Score != 0)
+                if (ObservableCollectionByDate[i].Point != 0)
                 {
                     ObservableCollectionByDate[i].Rank = i + 1;
                 }
@@ -191,7 +191,7 @@ namespace FMS.ViewModels
                 {
                     Name = item.Name,
                     DigitalDate = item.DigitalDate,
-                    Score = item.Score,
+                    Point = item.Point,
                     Rank = item.Rank,
                     Change = item.Change
                 });

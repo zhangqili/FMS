@@ -129,7 +129,7 @@ namespace FMS.ViewModels
                     if (nameItem.ListByName != null)
                         for (int i = 0; i < nameItem.ListByName.Count; i++)
                         {
-                            cells.CreateCell(i + 1).SetCellValue(nameItem.ListByName[i].Score);
+                            cells.CreateCell(i + 1).SetCellValue(nameItem.ListByName[i].Point);
                             cells.CreateCell(count + 1).SetCellValue(nameItem.Count);
                         }
                     ICell sumCell = cells.CreateCell(count + 2);
@@ -184,12 +184,12 @@ namespace FMS.ViewModels
             //foreach (var item in Global.Core.NameItems)
             //{
             //    tb.Text += string.Format("{0}\t{1}\n", item.Name,
-            //        item.EffectiveListByName.Max(x=>x.Score));
+            //        item.EffectiveListByName.Max(x=>x.Point));
             //}
             ////foreach (var item in Global.Core.DateItems)
             //{
             //    tb.Text += string.Format("{0}\t{1}\t{2}\n", item.DigitalDate.ToString(),
-            //        item.EffectiveListByDate.First().Name, item.EffectiveListByDate.First().Score.ToString());
+            //        item.EffectiveListByDate.First().Name, item.EffectiveListByDate.First().Point.ToString());
             //}
             //
             //MessageBox.Show(Global.Core.Dates.Contains(new Date {DigitalDate = 20220422, Title = "rebirth"})
@@ -202,7 +202,7 @@ namespace FMS.ViewModels
             //    {
             //        tb.Text += item.Rank.ToString();
             //        tb.Text += item.Name;
-            //        tb.Text += item.Score.ToString();
+            //        tb.Text += item.Point.ToString();
             //        tb.Text += " ";
             //        if (item.Change == "NEW" || item.Change == "BACK")
             //        {

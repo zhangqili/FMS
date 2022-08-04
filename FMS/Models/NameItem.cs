@@ -19,7 +19,7 @@ namespace FMS.Models
             {
                 listByName = value;
                 EffectiveListByName = (from x in value
-                                       where x.Score > 0
+                                       where x.Point > 0
                                        select x).ToList();
             }
         }
@@ -32,7 +32,7 @@ namespace FMS.Models
             get
             {
                 if (ListByName != null)
-                    return (EffectiveListByName.Sum(x => x.Score) + CustomValue);
+                    return (EffectiveListByName.Sum(x => x.Point) + CustomValue);
                 else
                     return CustomValue;
             }

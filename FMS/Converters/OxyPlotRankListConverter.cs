@@ -56,7 +56,7 @@ namespace FMS.Converters
                 foreach (Item item in items)
                 {
                     i++;
-                    series.Points.Add(item.Score == 0 ? DataPoint.Undefined : new DataPoint(i, item.Rank));
+                    series.Points.Add(item.Point == 0 ? DataPoint.Undefined : new DataPoint(i, item.Rank));
 
                 }
                 model.Series.Add(series);
