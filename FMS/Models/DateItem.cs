@@ -31,7 +31,7 @@ namespace FMS.Models
                         listByDate[i].Rank = 0;
                     }
                 }
-                EffectiveListByDate = value.Where(x => x.Point > 0 || x.Change == "OUT").ToList();
+                EffectiveListByDate = value.Where(x => x.Point > 0 || x.Code == StatusCode.OUT).ToList();
             }
         }
         public List<Item> EffectiveListByDate { get; set; }

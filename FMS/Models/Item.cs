@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace FMS.Models
 {
+    public enum StatusCode
+    {
+        NA=-1,
+        NORM,
+        NEW,
+        OUT,
+        BACK
+    }
     public class Item
     {
         public string Name { get; set; }
         public int DigitalDate { get; set; }
         public double Point { get; set; }
         public int Rank { get; set; }
-        public string Change { get; set; }
-        public int Code { get; set; }
+        public int Change { get; set; }
+        public StatusCode Code { get; set; }
     }
 }

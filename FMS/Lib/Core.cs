@@ -71,10 +71,10 @@ namespace FMS.Lib
                 switch (item.Point)
                 {
                     case > 0:
-                        item.Change = "NEW";
+                        item.Code = StatusCode.NEW;
                         break;
                     case <= 0:
-                        item.Change = "N/A";
+                        item.Code = StatusCode.NA;
                         break;
                     default:
                         break;
@@ -101,16 +101,16 @@ namespace FMS.Lib
                     {
                         if (oldItem.Rank == 0)
                         {
-                            item.Change = "N/A";
+                            item.Code = StatusCode.NA;
                         }
                         else
                         {
-                            item.Change = "OUT";
+                            item.Code = StatusCode.OUT;
                         }
                     }
                     else
                     {
-                        item.Change = "N/A";
+                        item.Code = StatusCode.NA;
                     }
                 }
                 else
@@ -118,25 +118,25 @@ namespace FMS.Lib
                     if (Existed == false)
                     {
                         Existed = true;
-                        item.Change = "NEW";
+                        item.Code = StatusCode.NEW;
                         goto labellabellabel;
                     }
                     if (oldItem.Rank == 0)
                     {
-                        item.Change = "BACK";
+                        item.Code = StatusCode.BACK;
                         goto labellabellabel;
                     }
                     int change = item.Rank - oldItem.Rank;
                     switch (change)
                     {
                         case > 0:
-                            item.Change = "▼" + change.ToString();
+                            item.Change = change;
                             break;
                         case < 0:
-                            item.Change = "▲" + (-change).ToString();
+                            item.Change = change;
                             break;
                         case 0:
-                            item.Change = "=";
+                            item.Change = 0;
                             break;
                         default:
                             //break;
@@ -162,16 +162,16 @@ namespace FMS.Lib
                             {
                                 if (nameItem.ListByName[i - 1].Rank == 0)
                                 {
-                                    item.Change = "N/A";
+                                    item.Code = StatusCode.NA;
                                 }
                                 else
                                 {
-                                    item.Change = "OUT";
+                                    item.Code = StatusCode.OUT;
                                 }
                             }
                             else
                             {
-                                item.Change = "N/A";
+                                item.Code = StatusCode.NA;
                             }
                         }
                         else
@@ -179,25 +179,25 @@ namespace FMS.Lib
                             if (Existed == false)
                             {
                                 Existed = true;
-                                item.Change = "NEW";
+                                item.Code = StatusCode.NEW;
                                 goto labellabellabel;
                             }
                             if (nameItem.ListByName[i - 1].Rank == 0)
                             {
-                                item.Change = "BACK";
+                                item.Code = StatusCode.BACK;
                                 goto labellabellabel;
                             }
                             int change = item.Rank - nameItem.ListByName[i - 1].Rank;
                             switch (change)
                             {
                                 case > 0:
-                                    item.Change = "▼" + change.ToString();
+                                    item.Change = change;
                                     break;
                                 case < 0:
-                                    item.Change = "▲" + (-change).ToString();
+                                    item.Change = change;
                                     break;
                                 case 0:
-                                    item.Change = "=";
+                                    item.Change = 0;
                                     break;
                                 default:
                                     //break;
@@ -326,9 +326,9 @@ namespace FMS.Lib
             try
             {
                 mass = mass.ToLower();
-                mass = mass.Replace("new", "");
-                mass = mass.Replace("back", "");
-                mass = mass.Replace("out", "");
+                mass = mass.Replace(StatusCode.NEW, "");
+                mass = mass.Replace(StatusCode.BACK, "");
+                mass = mass.Replace(StatusCode.OUT, "");
                 mass = mass.Replace(" ", "");
                 mass = mass.Replace("\t", "");
                 string[] list = mass.Split('\n');
@@ -519,7 +519,7 @@ namespace FMS.Lib
             NameItem nameItem = new NameItem() { Name = name, ListByName = new List<Item>() };
             foreach (DateItem dateItem in DateItems)
             {
-                Item item = new Item() { Name = name, DigitalDate = dateItem.DigitalDate, Rank = 0, Point = 0, Change = "N/A" };
+                Item item = new Item() { Name = name, DigitalDate = dateItem.DigitalDate, Rank = 0, Point = 0, Change = StatusCode.NA };
                 Items.Add(item);
                 dateItem.ListByDate.Add(item);
                 nameItem.ListByName.Add(item);
