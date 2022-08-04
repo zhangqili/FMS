@@ -204,7 +204,7 @@ namespace FMS.ViewModels
             //        tb.Text += item.Name;
             //        tb.Text += item.Point.ToString();
             //        tb.Text += " ";
-            //        if (item.Change == "NEW" || item.Change == "BACK")
+            //        if (item.Change == StatusCode.NEW || item.Change == StatusCode.BACK)
             //        {
             //            tb.Text += item.Change;
             //        }

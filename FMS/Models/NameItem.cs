@@ -80,7 +80,7 @@ namespace FMS.Models
             {
                 if (ListByName != null)
                     if (EffectiveListByName.Count != 0)
-                        return DateTime.ParseExact(EffectiveListByName.Find(x => x.Change == "NEW").DigitalDate.ToString(), "yyyyMMdd", null);
+                        return DateTime.ParseExact(EffectiveListByName.Find(x => x.Code == StatusCode.NEW).DigitalDate.ToString(), "yyyyMMdd", null);
                     else
                         return DateTime.MinValue;
                 else

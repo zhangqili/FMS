@@ -94,13 +94,13 @@
                                         <Grid.Style>
                                             <Style  TargetType="Grid">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Change}" Value="NEW">
+                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.NEW>
                                                         <Setter Property="Background" Value="LightGreen"></Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Change}" Value="BACK">
+                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.BACK>
                                                         <Setter Property="Background" Value="LightBlue"></Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Change}" Value="OUT">
+                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.OUT>
                                                         <Setter Property="Background" Value="OrangeRed"></Setter>
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -135,13 +135,13 @@
                                         <Grid.Style>
                                             <Style  TargetType="Grid">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Change}" Value="NEW">
+                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.NEW>
                                                         <Setter Property="Background" Value="LightGreen"></Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Change}" Value="BACK">
+                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.BACK>
                                                         <Setter Property="Background" Value="LightBlue"></Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Change}" Value="OUT">
+                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.OUT>
                                                         <Setter Property="Background" Value="OrangeRed"></Setter>
                                                     </DataTrigger>
                                                 </Style.Triggers>
