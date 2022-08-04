@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMS"
+        xmlns:models="clr-namespace:FMS.Models"
         mc:Ignorable="d"
         Title="新建日期" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -94,13 +95,13 @@
                                         <Grid.Style>
                                             <Style  TargetType="Grid">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.NEW>
+                                                    <DataTrigger Binding="{Binding Code}" Value="StatusCode.NEW">
                                                         <Setter Property="Background" Value="LightGreen"></Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.BACK>
+                                                    <DataTrigger Binding="{Binding Code}" Value="StatusCode.BACK">
                                                         <Setter Property="Background" Value="LightBlue"></Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.OUT>
+                                                    <DataTrigger Binding="{Binding Code}" Value="StatusCode.OUT">
                                                         <Setter Property="Background" Value="OrangeRed"></Setter>
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -135,13 +136,13 @@
                                         <Grid.Style>
                                             <Style  TargetType="Grid">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.NEW>
+                                                    <DataTrigger Binding="{Binding Code}" Value="1">
                                                         <Setter Property="Background" Value="LightGreen"></Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.BACK>
+                                                    <DataTrigger Binding="{Binding Change}" Value="3">
                                                         <Setter Property="Background" Value="LightBlue"></Setter>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Change}" Value=StatusCode.OUT>
+                                                    <DataTrigger Binding="{Binding Change}" Value="2">
                                                         <Setter Property="Background" Value="OrangeRed"></Setter>
                                                     </DataTrigger>
                                                 </Style.Triggers>
