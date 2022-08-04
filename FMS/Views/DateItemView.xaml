@@ -48,11 +48,6 @@
                 </TextBox.Style>
             </TextBox>
             <ListBox Grid.Row="1" x:Name="listBox" ItemsSource="{Binding DateItems}">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -68,7 +63,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="姓名" DisplayMemberBinding="{Binding Name}" Width="auto"></GridViewColumn>
-                    <GridViewColumn Header="分数" DisplayMemberBinding="{Binding Score}" Width="50"></GridViewColumn>
+                    <GridViewColumn Header="分数" DisplayMemberBinding="{Binding Point}" Width="50"></GridViewColumn>
                     <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}" Width="auto"></GridViewColumn>
                     <GridViewColumn Header="变化" DisplayMemberBinding="{Binding Change}" Width="60"></GridViewColumn>
                 </GridView>

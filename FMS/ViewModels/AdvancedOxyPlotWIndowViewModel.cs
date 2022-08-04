@@ -175,14 +175,14 @@ namespace FMS.ViewModels
             foreach (Item item in nameItem.ListByName)
             {
                 i++;
-                if (item.Score == 0)
+                if (item.Point == 0)
                 {
                     scoreSeries.Points.Add(DataPoint.Undefined);
                     rankSeries.Points.Add(DataPoint.Undefined);
                 }
                 else
                 {
-                    scoreSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Core.DigitalDateToDateTime(item.DigitalDate)), item.Score));
+                    scoreSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Core.DigitalDateToDateTime(item.DigitalDate)), item.Point));
                     rankSeries.Points.Add(new DataPoint(i, item.Rank));
                 }
             }
@@ -202,8 +202,8 @@ namespace FMS.ViewModels
             {
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
-                Maximum = Global.Core.Items.Max(x=>x.Score),
-                Minimum = Global.Core.Items.Where(x=>x.Score>0).Min(x=>x.Score),
+                Maximum = Global.Core.Items.Max(x=>x.Point),
+                Minimum = Global.Core.Items.Where(x=>x.Point>0).Min(x=>x.Point),
                 Position = AxisPosition.Left
             };
             ScoreModel.Axes.Add(linearAxis1);

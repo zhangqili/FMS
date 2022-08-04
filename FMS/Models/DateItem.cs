@@ -18,11 +18,11 @@ namespace FMS.Models
             set
             {
                 listByDate = (from x in value
-                             orderby x.Score descending
+                             orderby x.Point descending
                              select x).ToList();
                 for (int i = 0; i < listByDate.Count; i++)
                 {
-                    if (listByDate[i].Score != 0)
+                    if (listByDate[i].Point != 0)
                     {
                         listByDate[i].Rank = i + 1;
                     }
@@ -31,7 +31,7 @@ namespace FMS.Models
                         listByDate[i].Rank = 0;
                     }
                 }
-                EffectiveListByDate = value.Where(x => x.Score > 0 || x.Change == "OUT").ToList();
+                EffectiveListByDate = value.Where(x => x.Point > 0 || x.Change == "OUT").ToList();
             }
         }
         public List<Item> EffectiveListByDate { get; set; }
@@ -46,7 +46,7 @@ namespace FMS.Models
 
         public int Count
         {
-            get { return EffectiveListByDate.Count(x=>x.Score>0); }
+            get { return EffectiveListByDate.Count(x=>x.Point>0); }
             set { count = value; }
         }
 

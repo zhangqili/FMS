@@ -10,8 +10,9 @@ namespace FMS.Models
     {
         public string Name { get; set; }
         public int DigitalDate { get; set; }
-        public double Score { get; set; }
+        public double Point { get; set; }
         public int Rank { get; set; }
         public string Change { get; set; }
+        public int Code { get; set; }
     }
 }
