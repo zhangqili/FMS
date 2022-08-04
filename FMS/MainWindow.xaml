@@ -8,7 +8,7 @@
         xmlns:viewModels="clr-namespace:FMS.ViewModels"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Friend ManageMent System"  Height="500" Width="800" MinWidth="800" MinHeight="500" Topmost="True" WindowStartupLocation="CenterScreen">
+        Title="Friend ManageMent System"  Height="500" Width="800" MinWidth="800" MinHeight="500" WindowStartupLocation="CenterScreen">
     <mah:MetroWindow.DataContext>
         <viewModels:MainWindowViewModel></viewModels:MainWindowViewModel>
     </mah:MetroWindow.DataContext>

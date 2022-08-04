@@ -192,12 +192,15 @@ namespace FMS.Lib
                             {
                                 case > 0:
                                     item.Change = change;
+                                    item.Code = StatusCode.NORM;
                                     break;
                                 case < 0:
                                     item.Change = change;
+                                    item.Code = StatusCode.NORM;
                                     break;
                                 case 0:
                                     item.Change = 0;
+                                    item.Code = StatusCode.NORM;
                                     break;
                                 default:
                                     //break;
@@ -301,7 +304,6 @@ namespace FMS.Lib
             {
                 sheet.CreateRow(i);
             }
-
             IRow topRow = sheet.GetRow(0);
             for (int i = 0; i < DateItems.Count; i++)
             {
@@ -326,9 +328,9 @@ namespace FMS.Lib
             try
             {
                 mass = mass.ToLower();
-                mass = mass.Replace(StatusCode.NEW, "");
-                mass = mass.Replace(StatusCode.BACK, "");
-                mass = mass.Replace(StatusCode.OUT, "");
+                mass = mass.Replace("new", "");
+                mass = mass.Replace("back", "");
+                mass = mass.Replace("out", "");
                 mass = mass.Replace(" ", "");
                 mass = mass.Replace("\t", "");
                 string[] list = mass.Split('\n');
@@ -453,6 +455,7 @@ namespace FMS.Lib
             topRow0.CreateCell(2).SetCellValue("排名");
             topRow0.CreateCell(3).SetCellValue("日期");
             topRow0.CreateCell(4).SetCellValue("变化");
+            topRow0.CreateCell(5).SetCellValue("代码");
             for (int i = 0; i < Items.Count; i++)
             {
                 Item item = Items[i];
@@ -461,10 +464,16 @@ namespace FMS.Lib
                 cells.CreateCell(1).SetCellValue(item.Point);
                 cells.CreateCell(2).SetCellValue(item.Rank);
                 cells.CreateCell(3).SetCellValue(item.DigitalDate);
-                if (item.Change != null)
+                if (item.Code != null)
+                {
                     cells.CreateCell(4).SetCellValue(item.Change);
+                    cells.CreateCell(5).SetCellValue((int)item.Code);
+                }
                 else
+                {
                     cells.CreateCell(4).SetCellValue("null");
+                    cells.CreateCell(5).SetCellValue("null");
+                }
             }
             //标题
             ISheet sheet1 = newWorkbook.GetSheetAt(1);
@@ -519,7 +528,7 @@ namespace FMS.Lib
             NameItem nameItem = new NameItem() { Name = name, ListByName = new List<Item>() };
             foreach (DateItem dateItem in DateItems)
             {
-                Item item = new Item() { Name = name, DigitalDate = dateItem.DigitalDate, Rank = 0, Point = 0, Change = StatusCode.NA };
+                Item item = new Item() { Name = name, DigitalDate = dateItem.DigitalDate, Rank = 0, Point = 0, Code = StatusCode.NA };
                 Items.Add(item);
                 dateItem.ListByDate.Add(item);
                 nameItem.ListByName.Add(item);
