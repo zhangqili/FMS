@@ -8,7 +8,7 @@
         xmlns:viewModels="clr-namespace:FMS.ViewModels"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="Friend ManageMent System"  Height="500" Width="800" MinWidth="800" MinHeight="500" WindowStartupLocation="CenterScreen">
+        Title="Friend ManageMent System" Height="500" Width="800" MinWidth="800" MinHeight="500" WindowStartupLocation="CenterScreen">
     <mah:MetroWindow.DataContext>
         <viewModels:MainWindowViewModel></viewModels:MainWindowViewModel>
     </mah:MetroWindow.DataContext>
@@ -42,6 +42,7 @@
                     </MenuItem.Header>
                     <MenuItem Header="图表" Command="{Binding OpenOxyPlotCommand}"></MenuItem>
                     <MenuItem Header="原始视图" Command="{Binding RawViewCommand}"></MenuItem>
+                    <MenuItem Header="SQL查询" Command="{Binding SQLCommand}"></MenuItem>
                     <MenuItem Header="调试" Command="{Binding DebugCommand}"></MenuItem>
                     <MenuItem Header="选项" Command="{Binding SettingsCommand}"></MenuItem>
                 </MenuItem>
@@ -56,13 +57,13 @@
     </mah:MetroWindow.LeftWindowCommands>
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>
+            <!--<StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock>占用内存:</TextBlock>
                     <TextBlock></TextBlock>
                     <TextBlock>MB</TextBlock>
                 </StackPanel>
-            </StatusBarItem>
+            </StatusBarItem>-->
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock>启动用时:</TextBlock>

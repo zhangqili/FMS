@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using FMS.Libs;
 
 namespace FMS.Lib
 {
@@ -61,6 +62,7 @@ namespace FMS.Lib
             BlackList = GetBlackList();
             ObservableCollectionOfDateItems = new ObservableCollection<DateItem>(DateItems);
             ObservableCollectionOfNameItems = new ObservableCollection<NameItem>(NameItems);
+            new DataBase().Update(Items,Dates);
             //MessageBox.Show(Items.Count.ToString());
         }
 
@@ -501,6 +503,7 @@ namespace FMS.Lib
             {
                 newWorkbook.Write(fileStream);
             }
+            new DataBase().Update(Items,Dates);
         }
 
         private void AddItems(ISheet sheet)

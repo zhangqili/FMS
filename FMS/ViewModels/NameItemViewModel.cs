@@ -62,21 +62,27 @@ namespace FMS.ViewModels
         public DelegateCommand AddToChartCommand { get; set; }
         private void AddToChart(object parameter)
         {
-            if (Global.OxyPlotWindowViewModel == null)
+            if (SelectedItem!=null)
             {
-                new OxyPlotWindow().Show();
-                Global.OxyPlotWindowViewModel.AddSeries((NameItem)SelectedItem);
-            }
-            else
-            {
-                Global.OxyPlotWindowViewModel.AddSeries((NameItem)SelectedItem);
+                if (Global.OxyPlotWindowViewModel == null)
+                {
+                    new OxyPlotWindow().Show();
+                    Global.OxyPlotWindowViewModel.AddSeries((NameItem)SelectedItem);
+                }
+                else
+                {
+                    Global.OxyPlotWindowViewModel.AddSeries((NameItem)SelectedItem);
+                }
             }
         }
 
         public DelegateCommand AnalyseCommand { get; set; }
         private void Analyse(object parameter)
         {
-            new AdvancedOxyPlotWindow((NameItem)SelectedItem).Show();
+            if (SelectedItem!=null)
+            {
+                new AdvancedOxyPlotWindow((NameItem)SelectedItem).Show();
+            }
         }
         
         public NameItemViewModel()
