@@ -176,11 +176,6 @@ namespace FMS.ViewModels
             Window window = new Window();
             TextBox tb = new TextBox();
             tb.Text = "";
-            foreach (var item in Global.Core.InteralList)
-            {
-                tb.Text += string.Format("{0}\t{1}\t{2}\n", item.Name,
-                    item.Rank,item.DigitalDate);
-            }
             //foreach (var item in Global.Core.NameItems)
             //{
             //    tb.Text += string.Format("{0}\t{1}\n", item.Name,
@@ -253,6 +248,13 @@ namespace FMS.ViewModels
         {
             new RawViewWindow().Show();
         }
+
+        public DelegateCommand SQLCommand { get; set; }
+
+        private void SQL(object parameter)
+        {
+            new SQLWindow().Show();
+        }
         public MainWindowViewModel()
         {
             AddDateItemCommand = new DelegateCommand(AddDateItem);
@@ -269,6 +271,7 @@ namespace FMS.ViewModels
             LegacyExportCommand = new DelegateCommand(LegacyExport);
             OpenOxyPlotCommand = new DelegateCommand(OpenOxyPlot);
             RawViewCommand = new DelegateCommand(RawView);
+            SQLCommand = new DelegateCommand(SQL);
             GetStartTime();
             Memory = (int)(Process.GetCurrentProcess().WorkingSet64 / 1024/1024);
         }

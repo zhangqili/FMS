@@ -66,10 +66,11 @@
             Grid.Column="2" ItemsSource="{Binding ElementName=listBox,Path=SelectedItem.ListByName}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="日期" DisplayMemberBinding="{Binding DigitalDate}" Width="auto"></GridViewColumn>
-                    <GridViewColumn Header="分数" DisplayMemberBinding="{Binding Score}" Width="50"></GridViewColumn>
-                    <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}" Width="auto"></GridViewColumn>
-                    <GridViewColumn Header="变化" DisplayMemberBinding="{Binding Change}" Width="auto"></GridViewColumn>
+                    <GridViewColumn Header="日期" DisplayMemberBinding="{Binding DigitalDate}"></GridViewColumn>
+                    <GridViewColumn Header="分数" DisplayMemberBinding="{Binding Point}"></GridViewColumn>
+                    <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}"></GridViewColumn>
+                    <GridViewColumn Header="变化" DisplayMemberBinding="{Binding Change}"></GridViewColumn>
+                    <GridViewColumn Header="状态" DisplayMemberBinding="{Binding Code}"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

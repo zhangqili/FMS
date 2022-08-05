@@ -62,11 +62,11 @@
         <ListView Grid.Column="2" ItemsSource="{Binding ElementName=listBox,Path=SelectedItem.EffectiveListByDate}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="姓名" DisplayMemberBinding="{Binding Name}" Width="auto"></GridViewColumn>
-                    <GridViewColumn Header="分数" DisplayMemberBinding="{Binding Point}" Width="50"></GridViewColumn>
-                    <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}" Width="auto"></GridViewColumn>
-                    <GridViewColumn Header="变化" DisplayMemberBinding="{Binding Change}" Width="60"></GridViewColumn>
-                    <GridViewColumn Header="变化" DisplayMemberBinding="{Binding Code}"></GridViewColumn>
+                    <GridViewColumn Header="姓名" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                    <GridViewColumn Header="分数" DisplayMemberBinding="{Binding Point}"></GridViewColumn>
+                    <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}"></GridViewColumn>
+                    <GridViewColumn Header="变化" DisplayMemberBinding="{Binding Change}"></GridViewColumn>
+                    <GridViewColumn Header="状态" DisplayMemberBinding="{Binding Code}"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
