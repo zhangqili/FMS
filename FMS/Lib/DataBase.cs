@@ -11,20 +11,22 @@ using System.Threading.Tasks;
 
 namespace FMS.Libs
 {
-    internal class DataBase
+    public class DataBase
     {
         public SQLiteConnection Connection { get; set; }
-        internal DataBase(string url)
+        public SQLiteCommand Command { get; set; }
+        public DataBase(string url)
         {
             string cs = @"URI=file:" + url;
             Connection = new SQLiteConnection(cs);
             Connection.Open();
         }
-        internal DataBase()
+        public DataBase()
         {
             string cs = @"URI=file:" + AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "FMS.db";
             Connection = new SQLiteConnection(cs);
             Connection.Open();
+            Command = new SQLiteCommand(Connection);
         }
 
         public List<string> GetNames()
@@ -49,6 +51,15 @@ namespace FMS.Libs
             return null;
         }
 
+        public List<DateItem> GetDateItems(List<Date> dates)
+        {
+            List<DateItem> dateItems = new List<DateItem>();
+            foreach (var VARIABLE in dates)
+            {
+                dateItems.Add(GetDateItem(VARIABLE.DigitalDate));
+            }
+            return dateItems;
+        }
         public DateItem GetDateItem(int digitalDate)
         {
             DateItem dateItem = new DateItem();
@@ -82,17 +93,17 @@ namespace FMS.Libs
         }
         public DataTable ExecuteReader(string stm)
         {
-            DataTable dataTable = new DataTable();
-            var cmd = new SQLiteCommand(stm, Connection);
-            SQLiteDataReader rdr = cmd.ExecuteReader();
-            dataTable.Load(rdr);
-            return dataTable;
+            Command.CommandText = stm;
+            SQLiteDataReader rdr = Command.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(rdr);
+            return dt;
         }
 
         public int ExecuteNonQuery(string stm)
         {
-            var cmd = new SQLiteCommand(stm, Connection);
-            return cmd.ExecuteNonQuery();
+            Command.CommandText = stm;
+            return Command.ExecuteNonQuery();
         }
 
         public void Update(List<Item> items, List<Date> dates)
@@ -160,18 +171,50 @@ namespace FMS.Libs
                 }
             }
         }
+
+        public List<Item> GetItems()
+        {
+            return Transformat.ToItems(ExecuteReader(@"select * from source"));
+        }
+        public List<Date> GetDates()
+        {
+            return Transformat.ToDates(ExecuteReader(@"select * from title"));
+        }
         public static DateTime DigitalDateToDateTime(int x)
         {
             return DateTime.ParseExact(x.ToString(), "yyyyMMdd", null);
         }
     }
 
-    internal class Transfer
+    public class Transformat
     {
-        internal static List<Item> ToItems(DataTable dt)
+        public static List<Item> ToItems(DataTable dt)
         {
             List<Item> items = new List<Item>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                Item item = new Item();
+                item.Name = dr["Name"].ToString();
+                item.Point = Convert.ToDouble(dr["point"]);
+                item.Rank = Convert.ToInt32(dr["rank"]);
+                item.DigitalDate = Convert.ToInt32(dr["date"]);
+                item.Change = Convert.ToInt32(dr["change"]);
+                item.Code = (StatusCode)Convert.ToInt32(dr["code"]);
+                items.Add(item);
+            }
             return items;
+        }
+        public static List<Date> ToDates(DataTable dt)
+        {
+            List<Date> dates = new List<Date>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                Date d = new Date();
+                d.DigitalDate= Convert.ToInt32(dr["date"]);
+                d.Title = dr["title"].ToString();
+                dates.Add(d);
+            }
+            return dates;
         }
     }
 }
