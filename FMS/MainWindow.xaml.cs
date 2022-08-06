@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FMS.Libs;
 using MahApps.Metro.Controls;
 
 namespace FMS
@@ -25,8 +26,9 @@ namespace FMS
         public MainWindow()
         {
             //Global.Core = new Core(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "core.xlsx");
-            Global.Core = new Core(@"D:\FMS\FMS\bin\Debug\net6.0-windows\" + "core.xlsx");
+            //Global.Core = new Core(@"D:\FMS\FMS\bin\Debug\net6.0-windows\" + "core.xlsx");
 
+            Global.Core = new Core(new DataBase());
             InitializeComponent();
         }
     }

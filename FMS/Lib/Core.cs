@@ -1,4 +1,5 @@
-﻿using FMS.Models;
+﻿using FMS.Libs;
+using FMS.Models;
 using Microsoft.Win32;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -9,7 +10,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using FMS.Libs;
 
 namespace FMS.Lib
 {
@@ -57,12 +57,32 @@ namespace FMS.Lib
             AnalyzeChange(NameItems);
             DateItems = GroupByDate(Items);
             Names = GetNames();
-            DescDateItems = DateItems.OrderByDescending(x => x.DigitalDate).ToList();
+            //DescDateItems = DateItems.OrderByDescending(x => x.DigitalDate).ToList();
             FavoriteGroups = GetFavoriteGroups();
             BlackList = GetBlackList();
             ObservableCollectionOfDateItems = new ObservableCollection<DateItem>(DateItems);
             ObservableCollectionOfNameItems = new ObservableCollection<NameItem>(NameItems);
-            new DataBase().Update(Items,Dates);
+            new DataBase().Update(Items, Dates);
+            //MessageBox.Show(Items.Count.ToString());
+        }
+
+        public Core(DataBase db)
+        {
+            Items = db.GetItems();
+            Dates = db.GetDates();
+            //SpecialList = GetSpecialList();
+            SpecialList = new List<Item>();
+            NameItems = GroupByName(Items);
+            AnalyzeChange(NameItems);
+            DateItems = GroupByDate(Items);
+            Names = GetNames();
+            //DescDateItems = DateItems.OrderByDescending(x => x.DigitalDate).ToList();
+            //FavoriteGroups = GetFavoriteGroups();
+            FavoriteGroups = new Dictionary<string, List<string>>();
+            //BlackList = GetBlackList();
+            BlackList = new List<string>();
+            ObservableCollectionOfDateItems = new ObservableCollection<DateItem>(DateItems);
+            ObservableCollectionOfNameItems = new ObservableCollection<NameItem>(NameItems);
             //MessageBox.Show(Items.Count.ToString());
         }
 
@@ -284,7 +304,7 @@ namespace FMS.Lib
                                 item.Rank = y;
                             }
                         }
-                        else if(Cell(sourceSheet, x, y) != null)
+                        else if (Cell(sourceSheet, x, y) != null)
                         {
                             AddDate(digitalDate, Cell(sourceSheet, x, y).StringCellValue);
                         }
@@ -503,7 +523,7 @@ namespace FMS.Lib
             {
                 newWorkbook.Write(fileStream);
             }
-            new DataBase().Update(Items,Dates);
+            new DataBase().Update(Items, Dates);
         }
 
         private void AddItems(ISheet sheet)
@@ -567,9 +587,9 @@ namespace FMS.Lib
                 Dates.Add(date);
         }
 
-        public void AddDate(int ddate,string title="")
+        public void AddDate(int ddate, string title = "")
         {
-            Date date = new Date() {DigitalDate = ddate, Title = title};
+            Date date = new Date() { DigitalDate = ddate, Title = title };
             if (!Dates.Contains(date))
                 Dates.Add(date);
         }
@@ -802,7 +822,7 @@ namespace FMS.Lib
                 for (int j = 0; j < nameItems.Count; j++)
                 {
                     var item = new Item { Name = nameItems[j].Name, Rank = j + 1, DigitalDate = DateItems[i].DigitalDate, Point = nameItems[j].CustomValue };
-                    if (nameItems[j].CustomValue==0)
+                    if (nameItems[j].CustomValue == 0)
                     {
                         item.Rank = 0;
                     }
@@ -817,7 +837,7 @@ namespace FMS.Lib
             else
                 return null;
         }
-        
+
         public static DateTime DigitalDateToDateTime(int x)
         {
             return DateTime.ParseExact(x.ToString(), "yyyyMMdd", null);
