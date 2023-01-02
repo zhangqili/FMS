@@ -33,6 +33,7 @@
                     <Separator></Separator>
                     <MenuItem Header="在系统中打开源文件" Command="{Binding OpenInSystemCommand}"></MenuItem>
                     <Separator></Separator>
+                    <MenuItem Header="刷新" Command="{Binding RefreshCommand}"></MenuItem>
                     <MenuItem Header="重启" Command="{Binding RestartCommand}"></MenuItem>
                     <MenuItem Header="退出" Command="{Binding ExitCommand}"></MenuItem>
                 </MenuItem>

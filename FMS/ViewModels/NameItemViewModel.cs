@@ -47,6 +47,29 @@ namespace FMS.ViewModels
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
+
+        private double peakPoint;
+
+        public double PeakPoint
+        {
+            get { return peakPoint; }
+            set
+            {
+                peakPoint = value;
+                OnPropertyChanged(nameof(PeakPoint));
+            }
+        }
+        private double highestPoint;
+
+        public double HighestPoint
+        {
+            get { return highestPoint; }
+            set
+            {
+                highestPoint = value;
+                OnPropertyChanged(nameof(HighestPoint));
+            }
+        }
         private void Filter(string f)
         {
             if (f == "")

@@ -1,4 +1,4 @@
-﻿using FMS.Libs;
+﻿using FMS.Lib;
 using FMS.Models;
 using Microsoft.Win32;
 using NPOI.SS.UserModel;
@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using NPOI.SS.Formula.Functions;
 
 namespace FMS.Lib
 {
@@ -46,6 +47,8 @@ namespace FMS.Lib
         public List<Item> InteralList { get; set; }
         public ObservableCollection<DateItem> ObservableCollectionOfDateItems { get; set; }
         public ObservableCollection<NameItem> ObservableCollectionOfNameItems { get; set; }
+        public DataBase DataBase { get; set; }
+
         public Core(string url)
         {
             Backup(url);
@@ -63,11 +66,13 @@ namespace FMS.Lib
             ObservableCollectionOfDateItems = new ObservableCollection<DateItem>(DateItems);
             ObservableCollectionOfNameItems = new ObservableCollection<NameItem>(NameItems);
             new DataBase().Update(Items, Dates);
+            //BenchmarkPoint = 0;
             //MessageBox.Show(Items.Count.ToString());
         }
 
         public Core(DataBase db)
         {
+            DataBase = db;
             Items = db.GetItems();
             Dates = db.GetDates();
             //SpecialList = GetSpecialList();
@@ -83,6 +88,7 @@ namespace FMS.Lib
             BlackList = new List<string>();
             ObservableCollectionOfDateItems = new ObservableCollection<DateItem>(DateItems);
             ObservableCollectionOfNameItems = new ObservableCollection<NameItem>(NameItems);
+            //BenchmarkPoint = 0;
             //MessageBox.Show(Items.Count.ToString());
         }
 
@@ -343,6 +349,49 @@ namespace FMS.Lib
                 workbook.Write(fileStream);
             }
         }
+
+        public void Export(string url)
+        {
+            System.IO.File.WriteAllText(url, string.Empty);
+            int count = Global.Core.DateItems.Count;
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            //创建表
+            ISheet sheet = workbook.CreateSheet();
+            sheet.CreateFreezePane(1, 1, 1, 1);
+            IRow topRow = sheet.CreateRow(0);
+            for (int i = 0; i < count; i++)
+            {
+                topRow.CreateCell(i + 1).SetCellValue(Global.Core.DateItems[i].DigitalDate);
+            }
+            topRow.CreateCell(count + 1).SetCellValue("上榜次数");
+            topRow.CreateCell(count + 2).SetCellValue("总和");
+
+            int time = 0;
+
+            foreach (NameItem nameItem in Global.Core.NameItems)
+            {
+                IRow cells = sheet.CreateRow(time + 1);
+                cells.CreateCell(0).SetCellValue(nameItem.Name);
+                if (nameItem.ListByName != null)
+                    for (int i = 0; i < nameItem.ListByName.Count; i++)
+                    {
+                        cells.CreateCell(i + 1).SetCellValue(nameItem.ListByName[i].Point);
+                        cells.CreateCell(count + 1).SetCellValue(nameItem.Count);
+                    }
+                ICell sumCell = cells.CreateCell(count + 2);
+                sumCell.SetCellValue(nameItem.Sum);
+                time++;
+            }
+
+            using (FileStream fileStream = File.OpenWrite(url))
+            {
+                workbook.Write(fileStream);
+            }
+            ProcessStartInfo psi = new ProcessStartInfo("Explorer.exe");
+            psi.Arguments = "/e,/select," + url;
+            Process.Start(psi);
+
+        }
         public static List<Item> ImportListFromText(string mass)
         {
             int startValue = 1;
@@ -466,9 +515,12 @@ namespace FMS.Lib
             XSSFWorkbook newWorkbook = new XSSFWorkbook();
             newWorkbook.CreateSheet("源");
             newWorkbook.CreateSheet("标题");
-            SpecialSheet.CopyTo(newWorkbook, "特殊", true, true);
-            BlackListSheet.CopyTo(newWorkbook, "黑名单", true, true);
-            FavoriteGroupSheet.CopyTo(newWorkbook, "分组", true, true);
+            if (SpecialSheet != null)
+                SpecialSheet.CopyTo(newWorkbook, "特殊", true, true);
+            if (BlackListSheet != null)
+                BlackListSheet.CopyTo(newWorkbook, "黑名单", true, true);
+            if (FavoriteGroupSheet != null)
+                FavoriteGroupSheet.CopyTo(newWorkbook, "分组", true, true);
             //源
             ISheet sheet0 = newWorkbook.GetSheetAt(0);
             IRow topRow0 = sheet0.CreateRow(0);
@@ -523,7 +575,7 @@ namespace FMS.Lib
             {
                 newWorkbook.Write(fileStream);
             }
-            new DataBase().Update(Items, Dates);
+            DataBase.Update(Items, Dates);
         }
 
         private void AddItems(ISheet sheet)
