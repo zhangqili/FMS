@@ -9,7 +9,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FMS.Libs
+namespace FMS.Lib
 {
     public class DataBase
     {
@@ -111,11 +111,6 @@ namespace FMS.Libs
 
             ExecuteNonQuery("delete from source");
             ExecuteNonQuery("delete from title");
-            foreach (var VARIABLE in dates)
-            {
-                string stm = string.Format("insert into title values({0},\'{1}\')", VARIABLE.DigitalDate, VARIABLE.Title);
-                ExecuteNonQuery(stm);
-            }
             SQLiteCommand cmd = new SQLiteCommand(Connection);
             cmd.CommandText = "pragma synchronous = 0";
             cmd.ExecuteNonQuery();

@@ -89,6 +89,32 @@ namespace FMS.Models
             set { firstDate = value; }
         }
         public double CustomValue { get; set; }
+        private double peakPoint;
+
+        public double PeakPoint
+        {
+            get
+            {
+                Item item= EffectiveListByName[0];
+                foreach (var VARIABLE in EffectiveListByName)
+                {
+                    if (VARIABLE.Rank>0 && (VARIABLE.Rank <= item.Rank && VARIABLE.Point > item.Point) || VARIABLE.Rank<item.Rank)
+                    {
+                        item = VARIABLE;
+                    }
+                }
+                return item.Point;
+            }
+            set { peakPoint = value; }
+        }
+        private double highestPoint;
+
+        public double HighestPoint
+        {
+            get { return EffectiveListByName.Max(x=>x.Point); }
+            set { highestPoint = value; }
+        }
+
         public NameItem()
         {
             CustomValue = 0;

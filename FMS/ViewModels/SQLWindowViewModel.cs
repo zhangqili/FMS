@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using FMS.Commands;
 using FMS.Lib;
-using FMS.Libs;
 using Microsoft.Win32;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -63,11 +62,11 @@ namespace FMS.ViewModels
             {
                 DataTable.Dispose();
                 DataTable = DataBase.ExecuteReader(SQLCode);
-                Message += "SQL query succeeded\n";
+                Message = "SQL query succeeded\n";
             }
             catch (Exception e)
             {
-                Message += e.Message + "\n";
+                Message = e.Message + "\n";
             }
         }
         public DelegateCommand ExportCommand { get; set; }

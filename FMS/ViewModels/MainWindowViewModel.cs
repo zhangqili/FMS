@@ -106,44 +106,7 @@ namespace FMS.ViewModels
             Nullable<bool> result = dlg.ShowDialog();
             if (result == true)
             {
-                System.IO.File.WriteAllText(dlg.FileName, string.Empty);
-                int count = Global.Core.DateItems.Count;
-                XSSFWorkbook workbook = new XSSFWorkbook();
-                //创建表
-                ISheet sheet = workbook.CreateSheet();
-                sheet.CreateFreezePane(1, 1, 1, 1);
-                IRow topRow = sheet.CreateRow(0);
-                for (int i = 0; i < count; i++)
-                {
-                    topRow.CreateCell(i + 1).SetCellValue(Global.Core.DateItems[i].DigitalDate);
-                }
-                topRow.CreateCell(count + 1).SetCellValue("上榜次数");
-                topRow.CreateCell(count + 2).SetCellValue("总和");
-
-                int time = 0;
-
-                foreach (NameItem nameItem in Global.Core.NameItems)
-                {
-                    IRow cells = sheet.CreateRow(time + 1);
-                    cells.CreateCell(0).SetCellValue(nameItem.Name);
-                    if (nameItem.ListByName != null)
-                        for (int i = 0; i < nameItem.ListByName.Count; i++)
-                        {
-                            cells.CreateCell(i + 1).SetCellValue(nameItem.ListByName[i].Point);
-                            cells.CreateCell(count + 1).SetCellValue(nameItem.Count);
-                        }
-                    ICell sumCell = cells.CreateCell(count + 2);
-                    sumCell.SetCellValue(nameItem.Sum);
-                    time++;
-                }
-
-                using (FileStream fileStream = File.OpenWrite(dlg.FileName))
-                {
-                    workbook.Write(fileStream);
-                }
-                ProcessStartInfo psi = new ProcessStartInfo("Explorer.exe");
-                psi.Arguments = "/e,/select," + dlg.FileName;
-                Process.Start(psi);
+                Global.Core.Export(dlg.FileName);
             }
         }
         public DelegateCommand RestartCommand { get; set; }
@@ -255,6 +218,12 @@ namespace FMS.ViewModels
         {
             new SQLWindow().Show();
         }
+        public DelegateCommand RefreshCommand { get; set; }
+
+        private void Refresh(object parameter)
+        {
+            Global.Core = new Core(new DataBase());
+        }
         public MainWindowViewModel()
         {
             AddDateItemCommand = new DelegateCommand(AddDateItem);
@@ -272,6 +241,7 @@ namespace FMS.ViewModels
             OpenOxyPlotCommand = new DelegateCommand(OpenOxyPlot);
             RawViewCommand = new DelegateCommand(RawView);
             SQLCommand = new DelegateCommand(SQL);
+            RefreshCommand = new DelegateCommand(Refresh);
             GetStartTime();
             Memory = (int)(Process.GetCurrentProcess().WorkingSet64 / 1024/1024);
         }

@@ -18,18 +18,14 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <TextBox Padding="2" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
+        <DockPanel>
+            <TextBox DockPanel.Dock="Top" Padding="2" Height="26" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.Resources>
                     <VisualBrush x:Key="HintText" Opacity="0.5" Stretch="None" AlignmentX="Left">
                         <VisualBrush.Visual>
@@ -50,6 +46,7 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
+            <mah:RangeSlider DockPanel.Dock="Top" AutoToolTipPlacement="TopLeft" SmallChange="1"></mah:RangeSlider>
             <ListBox Grid.Row="1" x:Name="listBox" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding NameItems}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -60,7 +57,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </Grid>
+        </DockPanel>
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"></GridSplitter>
         <ListView
             Grid.Column="2" ItemsSource="{Binding ElementName=listBox,Path=SelectedItem.ListByName}">
@@ -82,7 +79,6 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid>
-
             </Grid>
             <StackPanel Grid.Column="4">
                 <StackPanel Orientation="Horizontal">
@@ -104,6 +100,14 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock>最高排名:</TextBlock>
                     <TextBlock Text="{Binding ElementName=listBox,Path=SelectedItem.Peak}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>最高排名对应点数:</TextBlock>
+                    <TextBlock Text="{Binding ElementName=listBox,Path=SelectedItem.PeakPoint}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>最高点数:</TextBlock>
+                    <TextBlock Text="{Binding ElementName=listBox,Path=SelectedItem.HighestPoint}"></TextBlock>
                 </StackPanel>
                 <WrapPanel Margin="0,3,0,3">
                     <Button Margin="0" ToolTip="添加到图表" Command="{Binding AddToChartCommand}">

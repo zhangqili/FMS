@@ -17,6 +17,8 @@ namespace FMS.Models
             }
             set
             {
+                double m=0;
+                int n = 0;
                 listByDate = (from x in value
                              orderby x.Point descending
                              select x).ToList();
@@ -24,12 +26,22 @@ namespace FMS.Models
                 {
                     if (listByDate[i].Point != 0)
                     {
-                        listByDate[i].Rank = i + 1;
+                        if (listByDate[i].Point == m)
+                        {
+                            n++;
+                            listByDate[i].Rank = i + 1 - n;
+                        }
+                        else
+                        {
+                            n = 0;
+                            listByDate[i].Rank = i + 1;
+                        }
                     }
                     else
                     {
                         listByDate[i].Rank = 0;
                     }
+                    m = listByDate[i].Point;
                 }
                 EffectiveListByDate = value.Where(x => x.Point > 0 || x.Code == StatusCode.OUT).ToList();
             }
