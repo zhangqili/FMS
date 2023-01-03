@@ -73,9 +73,9 @@
                 <TextBlock x:Name="programmerBlock" FontSize="16" >Programmed By Zhangqi Li</TextBlock>
                 <TextBlock x:Name="verisonBlock" FontSize="16" >Verison 1.0</TextBlock>
             </StackPanel>
-            <Button x:Name="okButton" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Height="32" FontSize="16" Content="确定" Click="okButton_Click">
+            <Button x:Name="okButton" Style="{StaticResource MahApps.Styles.Button.Flat}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Height="32" FontSize="16" Content="确定" Click="okButton_Click">
                 <Button.Effect>
-                    <DropShadowEffect x:Name="shadow" Direction="270" RenderingBias="Performance" ShadowDepth="0" BlurRadius="0" Opacity="0.6"/>
+                    <DropShadowEffect x:Name="shadow" Direction="270" RenderingBias="Performance" ShadowDepth="0" BlurRadius="0" Opacity="0.5"/>
                 </Button.Effect>
                 <Button.Triggers>
                     <EventTrigger RoutedEvent="Button.MouseEnter">

@@ -30,8 +30,8 @@
         </Grid.Background>
         <StackPanel Margin="32,24,32,32">
             <TextBlock FontSize="48" FontFamily="Microsoft YaHei UI Light">Friend Management System</TextBlock>
-            <TextBlock Margin="3.5,0,0,0">Powered by .NET 5.0</TextBlock>
-            <ProgressBar VerticalAlignment="Bottom" Height="5" Background="Transparent" Foreground="Blue" BorderThickness="0" IsIndeterminate="True" ></ProgressBar>
+            <TextBlock Margin="3.5,0,0,0">Powered by .NET 6.0</TextBlock>
+            <mah:MetroProgressBar Style="{StaticResource MahApps.Styles.ProgressBar}" VerticalAlignment="Bottom" Height="5" Background="Transparent" Foreground="Blue" BorderThickness="0" IsIndeterminate="True" ></mah:MetroProgressBar>
         </StackPanel>
     </Grid>
 </Window>

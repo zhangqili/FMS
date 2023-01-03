@@ -12,7 +12,7 @@
             <ColumnDefinition Width="0"></ColumnDefinition>
             <ColumnDefinition Width="0"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TabControl>
+        <TabControl  Style="{StaticResource MahApps.Styles.TabControl.Animated}">
             <TabItem Header="按排名">
                 <Grid>
                     <oxy:PlotView Model="{Binding RankModel}"></oxy:PlotView>

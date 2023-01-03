@@ -16,6 +16,9 @@
     </Window.DataContext>
     <Window.Resources>
         <converters:ObjectConverter x:Key="ObjectConverter"></converters:ObjectConverter>
+        <Style TargetType="GridSplitter" BasedOn="{StaticResource MahApps.Styles.GridSplitter.Preview}">
+            <Setter Property="Opacity" Value="0.35"></Setter>
+        </Style>
     </Window.Resources>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" Text="选择你要输出的总榜范围" Margin="5,10,0,10" FontSize="24"></TextBlock>
@@ -74,7 +77,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </GroupBox>
-            <GridSplitter Grid.Column="1" ></GridSplitter>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"></GridSplitter>
             <GroupBox Grid.Column="2">
                 <GroupBox.Header>
                     <Grid>
@@ -100,7 +103,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </GroupBox>
-            <GridSplitter Grid.Column="3"></GridSplitter>
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"></GridSplitter>
             <Grid Grid.Column="4">
                 <GroupBox Header="统计">
                     <StackPanel>
