@@ -12,7 +12,7 @@
         <viewModels:OxyPlotWindowViewModel></viewModels:OxyPlotWindowViewModel>
     </Window.DataContext>
     <Grid>
-        <TabControl>
+        <TabControl Style="{StaticResource MahApps.Styles.TabControl.Animated}">
             <TabItem Header="按排名">
                 <Grid>
                     <oxy:PlotView Model="{Binding RankModel}"></oxy:PlotView>

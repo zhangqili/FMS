@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using FMS;
 using MahApps.Metro.Controls;
 using FMS.Views;
+using System.Windows.Threading;
 
 namespace FMS
 {
@@ -26,12 +27,40 @@ namespace FMS
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        private StartWindow startWindow;
         public MainWindow()
         {
+            NewWindowHandler(null,null);
+            Hide();
             //Global.Core = new Core(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "core.xlsx");
             //Global.Core = new Core(@"D:\FMS\FMS\bin\Debug\net6.0-windows\" + "core.xlsx");
             Global.Core = new Core(new DataBase());
             InitializeComponent();
+            Show();
+            Activate();
+            CloseWindowSafe(startWindow);
+        }
+        private void NewWindowHandler(object sender, RoutedEventArgs e)
+        {
+            Thread newWindowThread = new Thread(new ThreadStart(ThreadStartingPoint));
+            newWindowThread.SetApartmentState(ApartmentState.STA);
+            newWindowThread.IsBackground = true;
+            newWindowThread.Start();
+        }
+
+        private void ThreadStartingPoint()
+        {
+            startWindow = new StartWindow();
+            startWindow.Show();
+            Dispatcher.Run();
+        }
+
+        void CloseWindowSafe(Window w)
+        {
+            if (w.Dispatcher.CheckAccess())
+                w.Close();
+            else
+                w.Dispatcher.Invoke(DispatcherPriority.Normal, new ThreadStart(w.Close));
         }
     }
 }

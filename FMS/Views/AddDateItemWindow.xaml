@@ -5,9 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FMS"
         xmlns:models="clr-namespace:FMS.Models"
+        xmlns:viewModels="clr-namespace:FMS.ViewModels"
         mc:Ignorable="d"
         Title="新建日期" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <viewModels:AddDateItemWindowViewModel></viewModels:AddDateItemWindowViewModel>
+    </Window.DataContext>
     <Window.Resources>
+        <Style TargetType="GridSplitter" BasedOn="{StaticResource MahApps.Styles.GridSplitter.Preview}">
+            <Setter Property="Opacity" Value="0.35"></Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

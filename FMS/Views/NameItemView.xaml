@@ -15,6 +15,10 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <converters:OxyPlotRankListConverter x:Key="OxyPlotRankListConverter"/>
+        <converters:ChangeConverter x:Key="ChangeConverter"/>
+        <Style TargetType="GridSplitter" BasedOn="{StaticResource MahApps.Styles.GridSplitter.Preview}">
+            <Setter Property="Opacity" Value="0.35"></Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -63,10 +67,16 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="日期" DisplayMemberBinding="{Binding DigitalDate}"></GridViewColumn>
-                    <GridViewColumn Header="分数" DisplayMemberBinding="{Binding Point}"></GridViewColumn>
+                    <GridViewColumn Header="分数" Width="50" DisplayMemberBinding="{Binding Point}"></GridViewColumn>
                     <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}"></GridViewColumn>
-                    <GridViewColumn Header="变化" DisplayMemberBinding="{Binding Change}"></GridViewColumn>
-                    <GridViewColumn Header="状态" DisplayMemberBinding="{Binding Code}"></GridViewColumn>
+                    <GridViewColumn Header="变化" Width="40">
+                        <GridViewColumn.DisplayMemberBinding>
+                            <MultiBinding Converter="{StaticResource ChangeConverter}">
+                                <Binding Path="Change"></Binding>
+                                <Binding Path="Code"></Binding>
+                            </MultiBinding>
+                        </GridViewColumn.DisplayMemberBinding>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

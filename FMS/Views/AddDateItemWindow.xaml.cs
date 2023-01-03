@@ -23,7 +23,6 @@ namespace FMS.Views
         public AddDateItemWindow()
         {
             InitializeComponent();
-            DataContext = new AddDateItemWindowViewModel();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)

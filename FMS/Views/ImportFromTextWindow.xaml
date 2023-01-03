@@ -10,6 +10,9 @@
     <Window.Resources>
         <Converters:ImportFromTextConverter x:Key="ImportFromTextConverter"/>
         <Converters:NameItemObservableCollectionConverter x:Key="NameItemObservableCollectionConverter"/>
+        <Style TargetType="GridSplitter" BasedOn="{StaticResource MahApps.Styles.GridSplitter.Preview}">
+            <Setter Property="Opacity" Value="0.35"></Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

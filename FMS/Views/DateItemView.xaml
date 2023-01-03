@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FMS.Views"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:converters="clr-namespace:FMS.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
     <UserControl.Resources>
@@ -12,6 +13,10 @@
             <MenuItem Header="编辑"></MenuItem>
             <MenuItem Header="删除"></MenuItem>
         </ContextMenu>
+        <converters:ChangeConverter x:Key="ChangeConverter"/>
+        <Style TargetType="GridSplitter" BasedOn="{StaticResource MahApps.Styles.GridSplitter.Preview}">
+            <Setter Property="Opacity" Value="0.35"></Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -63,10 +68,16 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="姓名" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
-                    <GridViewColumn Header="分数" DisplayMemberBinding="{Binding Point}"></GridViewColumn>
+                    <GridViewColumn Header="分数" Width="50" DisplayMemberBinding="{Binding Point}"></GridViewColumn>
                     <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}"></GridViewColumn>
-                    <GridViewColumn Header="变化" DisplayMemberBinding="{Binding Change}"></GridViewColumn>
-                    <GridViewColumn Header="状态" DisplayMemberBinding="{Binding Code}"></GridViewColumn>
+                    <GridViewColumn Header="变化" Width="40">
+                        <GridViewColumn.DisplayMemberBinding>
+                            <MultiBinding Converter="{StaticResource ChangeConverter}">
+                                <Binding Path="Change"></Binding>
+                                <Binding Path="Code"></Binding>
+                            </MultiBinding>
+                        </GridViewColumn.DisplayMemberBinding>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
