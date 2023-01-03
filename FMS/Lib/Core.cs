@@ -353,7 +353,7 @@ namespace FMS.Lib
         public void Export(string url)
         {
             System.IO.File.WriteAllText(url, string.Empty);
-            int count = Global.Core.DateItems.Count;
+            int count = DateItems.Count;
             XSSFWorkbook workbook = new XSSFWorkbook();
             //创建表
             ISheet sheet = workbook.CreateSheet();
@@ -361,14 +361,14 @@ namespace FMS.Lib
             IRow topRow = sheet.CreateRow(0);
             for (int i = 0; i < count; i++)
             {
-                topRow.CreateCell(i + 1).SetCellValue(Global.Core.DateItems[i].DigitalDate);
+                topRow.CreateCell(i + 1).SetCellValue(DateItems[i].DigitalDate);
             }
             topRow.CreateCell(count + 1).SetCellValue("上榜次数");
             topRow.CreateCell(count + 2).SetCellValue("总和");
 
             int time = 0;
 
-            foreach (NameItem nameItem in Global.Core.NameItems)
+            foreach (NameItem nameItem in NameItems)
             {
                 IRow cells = sheet.CreateRow(time + 1);
                 cells.CreateCell(0).SetCellValue(nameItem.Name);
@@ -390,8 +390,52 @@ namespace FMS.Lib
             ProcessStartInfo psi = new ProcessStartInfo("Explorer.exe");
             psi.Arguments = "/e,/select," + url;
             Process.Start(psi);
-
         }
+        public void Export(string url,List<Item> items)
+        {
+            List<DateItem> dateItems = GroupByDate(items);
+            List<NameItem> nameItems = GroupByName(items);
+            System.IO.File.WriteAllText(url, string.Empty);
+            int count = dateItems.Count;
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            //创建表
+            ISheet sheet = workbook.CreateSheet();
+            sheet.CreateFreezePane(1, 1, 1, 1);
+            IRow topRow = sheet.CreateRow(0);
+            for (int i = 0; i < count; i++)
+            {
+                topRow.CreateCell(i + 1).SetCellValue(dateItems[i].DigitalDate);
+            }
+            topRow.CreateCell(count + 1).SetCellValue("上榜次数");
+            topRow.CreateCell(count + 2).SetCellValue("总和");
+
+            int time = 0;
+
+            foreach (NameItem nameItem in nameItems)
+            {
+                IRow cells = sheet.CreateRow(time + 1);
+                cells.CreateCell(0).SetCellValue(nameItem.Name);
+                if (nameItem.ListByName != null)
+                    for (int i = 0; i < nameItem.ListByName.Count; i++)
+                    {
+                        cells.CreateCell(i + 1).SetCellValue(nameItem.ListByName[i].Point);
+                        cells.CreateCell(count + 1).SetCellValue(nameItem.Count);
+                    }
+                ICell sumCell = cells.CreateCell(count + 2);
+                sumCell.SetCellValue(nameItem.Sum);
+                time++;
+            }
+
+            using (FileStream fileStream = File.OpenWrite(url))
+            {
+                workbook.Write(fileStream);
+            }
+            ProcessStartInfo psi = new ProcessStartInfo("Explorer.exe");
+            psi.Arguments = "/e,/select," + url;
+            Process.Start(psi);
+        }
+
+
         public static List<Item> ImportListFromText(string mass)
         {
             int startValue = 1;

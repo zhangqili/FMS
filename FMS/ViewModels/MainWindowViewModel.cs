@@ -97,17 +97,7 @@ namespace FMS.ViewModels
         public DelegateCommand ExportCommand { get; set; }
         private void Export(object parameter)
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = "result" +
-                DateTime.Now.ToString("yyyyMMdd");
-            dlg.DefaultExt = ".xlsx";
-            dlg.Filter ="Excel 工作簿|*.xlsx";
-            dlg.Title="输出总榜";
-            Nullable<bool> result = dlg.ShowDialog();
-            if (result == true)
-            {
-                Global.Core.Export(dlg.FileName);
-            }
+            new ExportWindow().ShowDialog();
         }
         public DelegateCommand RestartCommand { get; set; }
         private void Restart(object parameter)
