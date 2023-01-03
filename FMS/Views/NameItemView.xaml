@@ -46,7 +46,6 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <mah:RangeSlider DockPanel.Dock="Top" AutoToolTipPlacement="TopLeft" SmallChange="1"></mah:RangeSlider>
             <ListBox Grid.Row="1" x:Name="listBox" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding NameItems}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -109,14 +108,14 @@
                     <TextBlock>最高点数:</TextBlock>
                     <TextBlock Text="{Binding ElementName=listBox,Path=SelectedItem.HighestPoint}"></TextBlock>
                 </StackPanel>
-                <WrapPanel Margin="0,3,0,3">
-                    <Button Margin="0" ToolTip="添加到图表" Command="{Binding AddToChartCommand}">
+                <WrapPanel>
+                    <Button Margin="0" ToolTip="添加到图表" Command="{Binding AddToChartCommand}" Style="{StaticResource MahApps.Styles.Button.Flat}">
                         <Grid Margin="4">
                             <TextBlock Text="" FontSize="20" FontFamily="Segoe MDL2 Assets"></TextBlock>
                             <TextBlock Text="" FontSize="6" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Top" FontWeight="Bold"></TextBlock>
                         </Grid>
                     </Button>
-                    <Button Margin="3,0,0,0" ToolTip="分析" Command="{Binding AnalyseCommand}">
+                    <Button ToolTip="分析" Command="{Binding AnalyseCommand}" Style="{StaticResource MahApps.Styles.Button.Flat}">
                         <Grid Margin="4">
                             <TextBlock Text="" FontSize="20" FontFamily="Segoe MDL2 Assets"></TextBlock>
                         </Grid>

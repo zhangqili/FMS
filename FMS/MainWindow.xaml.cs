@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FMS;
 using MahApps.Metro.Controls;
+using FMS.Views;
 
 namespace FMS
 {
@@ -32,6 +33,5 @@ namespace FMS
             Global.Core = new Core(new DataBase());
             InitializeComponent();
         }
-        
     }
 }
