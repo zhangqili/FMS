@@ -23,7 +23,15 @@ namespace FMS.Views
         public ImportWindow()
         {
             InitializeComponent();
-            DataContext = new ImportWindowViewModel();
+            DataContext= new ImportWindowViewModel();
+
+        }
+
+        public ImportWindow(string filePath)
+        {
+            InitializeComponent();
+            DataContext = new ImportWindowViewModel(filePath);
+
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)

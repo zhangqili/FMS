@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MahApps.Metro.Controls;
 
 namespace FMS.ViewModels
 {
@@ -61,7 +62,7 @@ namespace FMS.ViewModels
                 OnPropertyChanged(nameof(Count));
             }
         }
-
+        
 
         public DelegateCommand OKCommand { get; set; }
 
@@ -104,6 +105,12 @@ namespace FMS.ViewModels
                 FilePath = dlg.FileName;
                 ShowDetail(FilePath);
             }
+        }
+        public ImportWindowViewModel(string filePath)
+        {
+            FilePath=filePath;
+            OKCommand = new DelegateCommand(OK);
+            ShowDetail(FilePath);
         }
     }
 }

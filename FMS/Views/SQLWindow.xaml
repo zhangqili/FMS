@@ -16,7 +16,18 @@
     <Window.InputBindings>
         <KeyBinding Key="F5"  Command="{Binding ExecuteCommand}"></KeyBinding>
     </Window.InputBindings>
-    <Grid>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Command="{Binding ExecuteCommand}" Content="" ToolTip="Execute (F5)" FontFamily="Segoe MDL2 Assets"></Button>
+                <Button Command="{Binding ExportCommand}" Content="" ToolTip="Execute (Ctrl + S)" FontFamily="Segoe MDL2 Assets"></Button>
+                <mah:DropDownButton Content="历史记录" BorderThickness="0">
+                    <mah:DropDownButton.Icon>
+                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14"></TextBlock>
+                    </mah:DropDownButton.Icon>
+                </mah:DropDownButton>
+            </ToolBar>
+        </ToolBarTray>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -24,33 +35,27 @@
                 <ColumnDefinition Width="3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid>
-                <DockPanel>
-                    <ToolBar DockPanel.Dock="Top">
-                        <Button Command="{Binding ExecuteCommand}" Content="" ToolTip="Execute (F5)" FontFamily="Segoe MDL2 Assets"></Button>
-                        <Button Command="{Binding ExportCommand}" Content="" ToolTip="Execute (Ctrl + S)" FontFamily="Segoe MDL2 Assets"></Button>
-                    </ToolBar>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="5"></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <TextBox HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SQLCode,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                        <GridSplitter Grid.Row="1"></GridSplitter>
-                        <TextBox Grid.Row="2" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Text="{Binding Message}">
-                            <i:Interaction.Triggers>
-                                <i:DataTrigger Binding="{Binding Text.Length, ElementName=TBInfo}" Comparison="NotEqual" Value="0">
-                                    <i:CallMethodAction MethodName="ScrollToEnd"></i:CallMethodAction>
-                                </i:DataTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                    </Grid>
-                </DockPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="5"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBox HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SQLCode,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <GridSplitter Grid.Row="1"></GridSplitter>
+                    <TextBox Grid.Row="2" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Text="{Binding Message}">
+                        <i:Interaction.Triggers>
+                            <i:DataTrigger Binding="{Binding Text.Length, ElementName=TBInfo}" Comparison="NotEqual" Value="0">
+                                <i:CallMethodAction MethodName="ScrollToEnd"></i:CallMethodAction>
+                            </i:DataTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Grid>
             </Grid>
             <GridSplitter Grid.Column="1"></GridSplitter>
             <Grid Grid.Column="2">
                 <DataGrid ItemsSource="{Binding DataTable}"></DataGrid>
             </Grid>
         </Grid>
-    </Grid>
+    </DockPanel>
 </mah:MetroWindow>

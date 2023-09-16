@@ -29,26 +29,10 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <DockPanel>
-            <TextBox DockPanel.Dock="Top" Padding="2" Height="26" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
-                <TextBox.Resources>
-                    <VisualBrush x:Key="HintText" Opacity="0.5" Stretch="None" AlignmentX="Left">
-                        <VisualBrush.Visual>
-                            <TextBlock>过滤</TextBlock>
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </TextBox.Resources>
-                <TextBox.Style>
-                    <Style TargetType="TextBox">
-                        <Style.Triggers>
-                            <Trigger Property="Text" Value="{x:Null}">
-                                <Setter Property="Background" Value="{StaticResource HintText}"/>
-                            </Trigger>
-                            <Trigger Property="Text" Value="">
-                                <Setter Property="Background" Value="{StaticResource HintText}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
+            <TextBox DockPanel.Dock="Top"
+                     Style="{StaticResource MahApps.Styles.TextBox}" 
+                     mah:TextBoxHelper.Watermark="过滤"
+                     Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
             <ListBox Grid.Row="1" x:Name="listBox" SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding NameItems}">
                 <ListBox.ItemTemplate>

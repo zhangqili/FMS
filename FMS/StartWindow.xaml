@@ -12,9 +12,45 @@
         <EventTrigger RoutedEvent="Window.Loaded">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Storyboard.TargetName="startWindow" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.6">
+                    <DoubleAnimation Storyboard.TargetName="startWindow" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5">
                         <DoubleAnimation.EasingFunction>
                             <QuadraticEase ></QuadraticEase>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="MainLabelTranslateTransform" Storyboard.TargetProperty="X" From="100" To="0" Duration="0:0:0.5">
+                        <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" ></QuadraticEase>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="MainLabel" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5">
+                        <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" ></QuadraticEase>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="SubLabelTranslateTransform" Storyboard.TargetProperty="X" From="100" To="0" BeginTime="0:0:0.1" Duration="0:0:0.5">
+                        <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" ></QuadraticEase>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="SubLabel" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0.1" Duration="0:0:0.5">
+                        <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut" ></QuadraticEase>
                         </DoubleAnimation.EasingFunction>
                     </DoubleAnimation>
                 </Storyboard>
@@ -29,9 +65,34 @@
             </LinearGradientBrush>
         </Grid.Background>
         <StackPanel Margin="32,24,32,32">
-            <TextBlock FontSize="48" FontFamily="Microsoft YaHei UI Light">Friend Management System</TextBlock>
-            <TextBlock Margin="3.5,0,0,0">Powered by .NET 6.0</TextBlock>
-            <mah:MetroProgressBar Style="{StaticResource MahApps.Styles.ProgressBar}" VerticalAlignment="Bottom" Height="5" Background="Transparent" Foreground="Blue" BorderThickness="0" IsIndeterminate="True" ></mah:MetroProgressBar>
+            <TextBlock x:Name="MainLabel" FontSize="48" FontFamily="Microsoft YaHei UI Light" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="100" x:Name="MainLabelTranslateTransform"/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>Friend Management System</TextBlock>
+            <TextBlock x:Name="SubLabel" Opacity="0" Margin="3,0,0,0" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform x:Name="SubLabelTranslateTransform" X="100"/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>Powered by .NET 6.0</TextBlock>
+            <mah:MetroProgressBar Style="{StaticResource MahApps.Styles.ProgressBar}" VerticalAlignment="Bottom" Height="5" Background="Transparent" Foreground="Blue" BorderThickness="0" IsIndeterminate="True" RenderTransformOrigin="0.5,0.5" >
+                <mah:MetroProgressBar.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </mah:MetroProgressBar.RenderTransform>
+            </mah:MetroProgressBar>
         </StackPanel>
     </Grid>
 </Window>

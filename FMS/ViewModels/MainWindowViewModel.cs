@@ -64,7 +64,17 @@ namespace FMS.ViewModels
 
         private void Import(object parameter)
         {
-            new ImportWindow().Show();
+            
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".xlsx";
+            dlg.Filter = "Excel 工作簿|*.xlsx";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                new ImportWindow(dlg.FileName).Show();
+            }
+            
+            //new ImportWindow().Show();
         }
 
         public DelegateCommand OpenOxyPlotCommand { get; set; }
@@ -129,6 +139,39 @@ namespace FMS.ViewModels
             Window window = new Window();
             TextBox tb = new TextBox();
             tb.Text = "";
+            foreach (var VARIABLE in Global.Core.NameItems)
+            {
+                int contionous = 0;
+                string dateStart = "";
+                string dateEnd = "";
+                for (int i = 0; i < VARIABLE.EffectiveListByName.Count; i++)
+                {
+                    if (VARIABLE.EffectiveListByName[i].Rank>0&& VARIABLE.EffectiveListByName[i].Rank<=3)
+                    {
+                        if (contionous == 0)
+                        {
+                            dateStart = VARIABLE.EffectiveListByName[i].DigitalDate.ToString();
+                        }
+
+                        contionous++;
+                    }
+                    else
+                    {
+                        if (contionous > 0)
+                        {
+                            dateEnd = VARIABLE.EffectiveListByName[i-1].DigitalDate.ToString();
+                            tb.Text += String.Format("{0}\t{1}\t{2}\n",VARIABLE.Name,dateStart+"-"+dateEnd,contionous);
+                            contionous = 0;
+                        }
+                    }
+                }
+                if(contionous>0)
+                {
+                    dateEnd = VARIABLE.EffectiveListByName.Last().DigitalDate.ToString();
+                    tb.Text += String.Format("{0}\t{1}\t{2}\n", VARIABLE.Name, dateStart + "-" + dateEnd, contionous);
+                    contionous = 0;
+                }
+            }
             //foreach (var item in Global.Core.NameItems)
             //{
             //    tb.Text += string.Format("{0}\t{1}\n", item.Name,
@@ -214,6 +257,22 @@ namespace FMS.ViewModels
         {
             Global.Core = new Core(new DataBase());
         }
+        public DelegateCommand RebuildDatabaseCommand { get; set; }
+
+        private void RebuildDatabase(object parameter)
+        {
+            switch (MessageBox.Show("此操作可能会修复一些错误，但是会删除所有数据", "注意", MessageBoxButton.OKCancel, MessageBoxImage.Warning))
+            {
+                case MessageBoxResult.OK:
+                    DataBase.RebuildDatabase();
+                    Restart(null);
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+                default:
+                    break;
+            }
+        }
         public MainWindowViewModel()
         {
             AddDateItemCommand = new DelegateCommand(AddDateItem);
@@ -232,6 +291,7 @@ namespace FMS.ViewModels
             RawViewCommand = new DelegateCommand(RawView);
             SQLCommand = new DelegateCommand(SQL);
             RefreshCommand = new DelegateCommand(Refresh);
+            RebuildDatabaseCommand = new DelegateCommand(RebuildDatabase);
             GetStartTime();
             Memory = (int)(Process.GetCurrentProcess().WorkingSet64 / 1024/1024);
         }

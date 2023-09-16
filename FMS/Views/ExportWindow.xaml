@@ -82,9 +82,17 @@
                 <GroupBox.Header>
                     <Grid>
                         <TextBlock Foreground="White" >人员范围</TextBlock>
-                        <CheckBox x:Name="NameItemCheckBox" Click="NameItemCheckBox_OnClick" HorizontalAlignment="Right" VerticalAlignment="Center"  IsChecked="{Binding IsNameItemAllSelected}" MinHeight="0" Height="16">
-                            <TextBlock  Foreground="White">全选</TextBlock>
-                        </CheckBox>
+                        <StackPanel  HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Foreground="White">
+                                    排序方式：
+                                </TextBlock>
+                                <ComboBox></ComboBox>
+                            </StackPanel>
+                            <CheckBox x:Name="NameItemCheckBox" Click="NameItemCheckBox_OnClick"  IsChecked="{Binding IsNameItemAllSelected}" MinHeight="0" Height="16">
+                                <TextBlock  Foreground="White">全选</TextBlock>
+                            </CheckBox>
+                        </StackPanel>
                     </Grid>
                 </GroupBox.Header>
                 <ListBox  x:Name="NameItemListBox" SelectionMode="Extended" ItemsSource="{Binding NameItems}" d:ItemsSource="{d:SampleData ItemCount=5}">

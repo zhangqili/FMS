@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FMS.Lib
 {
@@ -15,6 +17,8 @@ namespace FMS.Lib
     {
         public SQLiteConnection Connection { get; set; }
         public SQLiteCommand Command { get; set; }
+        public string BackupUrl { get; set; }
+        public string FilePath { get; set; }
         public DataBase(string url)
         {
             string cs = @"URI=file:" + url;
@@ -23,10 +27,12 @@ namespace FMS.Lib
         }
         public DataBase()
         {
-            string cs = @"URI=file:" + AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "FMS.db";
-            Connection = new SQLiteConnection(cs);
+            FilePath =  AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "FMS.db";
+            Connection = new SQLiteConnection(@"URI=file:" + FilePath);
             Connection.Open();
             Command = new SQLiteCommand(Connection);
+            BackupUrl = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "FMS.backup.db";
+            Backup(BackupUrl);
         }
 
         public List<string> GetNames()
@@ -178,6 +184,37 @@ namespace FMS.Lib
         public static DateTime DigitalDateToDateTime(int x)
         {
             return DateTime.ParseExact(x.ToString(), "yyyyMMdd", null);
+        }
+
+        public static void RebuildDatabase()
+        {
+            string cmd;
+            string cs = @"URI=file:" + AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "FMS.db";
+            SQLiteConnection sqLiteConnection = new SQLiteConnection(cs);
+            sqLiteConnection.Open();
+            SQLiteCommand sqLiteCommand = new SQLiteCommand(sqLiteConnection);
+            cmd =
+                "DROP TABLE IF EXISTS source";
+            sqLiteCommand.CommandText = cmd;
+            sqLiteCommand.ExecuteNonQuery();
+            cmd =
+                "DROP TABLE IF EXISTS title";
+            sqLiteCommand.CommandText = cmd;
+            sqLiteCommand.ExecuteNonQuery();
+            cmd =
+                "CREATE TABLE \"source\" (\r\n\t\"name\"\tTEXT,\r\n\t\"point\"\tNUMERIC,\r\n\t\"rank\"\tINTEGER,\r\n\t\"date\"\tINTEGER,\r\n\t\"change\"\tINTEGER\r\n, \"code\"\tINTEGER)";
+            sqLiteCommand.CommandText = cmd;
+            sqLiteCommand.ExecuteNonQuery();
+            cmd = "CREATE TABLE \"title\" (\r\n\t\"date\"\tINTEGER,\r\n\t\"title\"\tTEXT\r\n)";
+            sqLiteCommand.CommandText = cmd;
+            sqLiteCommand.ExecuteNonQuery();
+            sqLiteConnection.Close();
+            sqLiteConnection.Dispose();
+        }
+
+        public void Backup(string url)
+        {
+            File.Copy(FilePath, url, true);
         }
     }
 

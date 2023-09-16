@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:FMS.Views"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:converters="clr-namespace:FMS.Converters"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="White">
     <UserControl.Resources>
@@ -31,26 +32,10 @@
                 <RowDefinition  Height="auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBox Padding="2" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
-                <TextBox.Resources>
-                    <VisualBrush x:Key="HintText" Opacity="0.5" Stretch="None" AlignmentX="Left">
-                        <VisualBrush.Visual>
-                            <TextBlock>过滤</TextBlock>
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </TextBox.Resources>
-                <TextBox.Style>
-                    <Style TargetType="TextBox">
-                        <Style.Triggers>
-                            <Trigger Property="Text" Value="{x:Null}">
-                                <Setter Property="Background" Value="{StaticResource HintText}"/>
-                            </Trigger>
-                            <Trigger Property="Text" Value="">
-                                <Setter Property="Background" Value="{StaticResource HintText}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
+            <TextBox 
+                Style="{StaticResource MahApps.Styles.TextBox}" 
+                mah:TextBoxHelper.Watermark="过滤"
+                Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
             <ListBox Grid.Row="1" x:Name="listBox" ItemsSource="{Binding DateItems}">
                 <ListBox.ItemTemplate>

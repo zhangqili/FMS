@@ -19,6 +19,7 @@ using FMS;
 using MahApps.Metro.Controls;
 using FMS.Views;
 using System.Windows.Threading;
+using System.Data.SQLite;
 
 namespace FMS
 {
@@ -30,15 +31,24 @@ namespace FMS
         private StartWindow startWindow;
         public MainWindow()
         {
-            NewWindowHandler(null,null);
-            Hide();
-            //Global.Core = new Core(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "core.xlsx");
-            //Global.Core = new Core(@"D:\FMS\FMS\bin\Debug\net6.0-windows\" + "core.xlsx");
-            Global.Core = new Core(new DataBase());
+            //NewWindowHandler(null,null);
+            //Hide();
+            try
+            {
+                //Global.Core = new Core(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "core.xlsx");
+                //Global.Core = new Core(@"D:\FMS\FMS\bin\Debug\net6.0-windows\" + "core.xlsx");
+                Global.Core = new Core(new DataBase());
+            }
+            catch (Exception e)
+            {
+                //CloseWindowSafe(startWindow);
+                new TroubleshootingWindow(e.Message).ShowDialog();
+
+            }
             InitializeComponent();
-            Show();
-            Activate();
-            CloseWindowSafe(startWindow);
+            //Show();
+            //Activate();
+            //CloseWindowSafe(startWindow);
         }
         private void NewWindowHandler(object sender, RoutedEventArgs e)
         {

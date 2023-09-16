@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media.Animation;
 using NPOI.SS.Formula.Functions;
 
 namespace FMS.Lib
@@ -33,6 +34,8 @@ namespace FMS.Lib
 
             }
         }
+
+        public string FilePath { get; set; }
         public List<string> Names { get; set; }
         public List<Date> Dates { get; set; }
         private List<string> TempNames { get; set; }
@@ -51,7 +54,7 @@ namespace FMS.Lib
 
         public Core(string url)
         {
-            Backup(url);
+            Backup(BackupUrl);
             OpenFile(url);
             Items = GetItems();
             Dates = GetDates();
@@ -276,9 +279,9 @@ namespace FMS.Lib
                 TempNames = names;
                 TempDigitalDates = digitalDates;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                MessageBox.Show("文件错误");
+                MessageBox.Show(e.HelpLink+e.HelpLink);
             }
         }
         public void Import(string path)
@@ -299,10 +302,6 @@ namespace FMS.Lib
                         if (Cell(sourceSheet, x, y) != null && Cell(sourceSheet, x + 1, y) != null)
                         {
                             string name = Cell(sourceSheet, x, y).ToString();
-                            if (y == 50)
-                            {
-                                Console.WriteLine();
-                            }
                             if (name != "")
                             {
                                 Item item = Items.Find(d => d.Name == name && d.DigitalDate == digitalDate);
@@ -686,7 +685,12 @@ namespace FMS.Lib
         public void AddDate(int ddate, string title = "")
         {
             Date date = new Date() { DigitalDate = ddate, Title = title };
-            if (!Dates.Contains(date))
+            if (Dates.Exists(x => x.DigitalDate == ddate))
+            {
+                Dates.Remove(Dates.Find(x=>x.DigitalDate==ddate));
+                Dates.Add(date);
+            }
+            else 
                 Dates.Add(date);
         }
         public void DeleteDateItem(int digitalDate)
@@ -722,7 +726,7 @@ namespace FMS.Lib
                 Environment.Exit(0);
             }
         }
-        void Backup(string url)
+        public void Backup(string url)
         {
             File.Copy(url, BackupUrl, true);
         }

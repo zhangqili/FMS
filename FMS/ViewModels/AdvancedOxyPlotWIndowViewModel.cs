@@ -231,7 +231,7 @@ namespace FMS.ViewModels
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
                 Position = AxisPosition.Left,
-                Maximum = 50,
+                Maximum = 60,
                 Minimum = 1,
                 StartPosition = 1,
                 EndPosition = 0

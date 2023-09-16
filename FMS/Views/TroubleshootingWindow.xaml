@@ -1,0 +1,58 @@
+﻿<mah:MetroWindow x:Class="FMS.Views.TroubleshootingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FMS.Views"
+        xmlns:viewModels="clr-namespace:FMS.ViewModels"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" ShowCloseButton="False" ShowMinButton="False" ShowMaxRestoreButton="False" ResizeMode="NoResize" Height="400" Width="550">
+    <Window.DataContext>
+        <viewModels:TroubleshootingViewModel></viewModels:TroubleshootingViewModel>
+    </Window.DataContext>
+    <Grid>
+        <Grid Margin="32">
+            <StackPanel>
+                <TextBlock Foreground="DarkBlue" FontSize="24">读取数据库时发生错误</TextBlock>
+                <TextBlock>以下操作可能会修复错误</TextBlock>
+                <Button Command="{Binding RebuildDatabaseCommand}" Margin="0,3,0,0" BorderBrush="LightGray" Style="{DynamicResource MahApps.Styles.Button.MetroSquare}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click_1">
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20"></TextBlock>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Normal" FontSize="14">重建数据库</TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Normal">此操作会删除所有数据</TextBlock>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding ChooseDatabaseCommand}" Margin="0,3,0,0" BorderBrush="LightGray" Style="{DynamicResource MahApps.Styles.Button.MetroSquare}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click_2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20"></TextBlock>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Normal" FontSize="14">选择已有的数据库文件进行恢复</TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontFamily="Microsoft YaHei UI" FontWeight="Normal">如选择程序自动备份的FMS.backup.db</TextBlock>
+                    </Grid>
+                </Button>
+                <TextBlock x:Name="MessageTextBlock" TextWrapping="Wrap"/>
+
+            </StackPanel>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{DynamicResource MahApps.Styles.Button.Flat}" Click="Button_Click">
+                退出
+            </Button>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>
