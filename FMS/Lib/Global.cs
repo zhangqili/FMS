@@ -12,5 +12,8 @@ namespace FMS.Lib
         public static Core Core { get; set; }
 
         public static OxyPlotWindowViewModel OxyPlotWindowViewModel { get; set; }
+        public static DateItemViewModel DateItemViewModel { get; set; }
+        public static NameItemViewModel NameItemViewModel { get; set; }
+        public static MainWindowViewModel MainWindowViewModel { get; set; }
     }
 }

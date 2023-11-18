@@ -24,6 +24,7 @@ namespace FMS.Lib
             string cs = @"URI=file:" + url;
             Connection = new SQLiteConnection(cs);
             Connection.Open();
+            Command = new SQLiteCommand(Connection);
         }
         public DataBase()
         {

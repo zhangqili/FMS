@@ -68,6 +68,7 @@ namespace FMS.ViewModels
 
         public DateItemViewModel()
         {
+            Global.DateItemViewModel = this;
             FilterCommand = new DelegateCommand(Filter);
             DateItems = Global.Core.ObservableCollectionOfDateItems;
             FilterText = "";

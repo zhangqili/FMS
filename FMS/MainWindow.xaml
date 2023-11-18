@@ -12,6 +12,9 @@
     <mah:MetroWindow.DataContext>
         <viewModels:MainWindowViewModel></viewModels:MainWindowViewModel>
     </mah:MetroWindow.DataContext>
+    <mah:MetroWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+    </mah:MetroWindow.Resources>
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands ShowLastSeparator="False">
             <Menu Background="Transparent">
@@ -20,33 +23,39 @@
                         <TextBlock Foreground="White">文件</TextBlock>
                     </MenuItem.Header>
                     <MenuItem Header="新建">
-                        <MenuItem Header="日期" Command="{Binding AddDateItemCommand}"></MenuItem>
-                        <MenuItem Header="姓名" Command="{Binding AddNameItemCommand}"></MenuItem>
+                        <MenuItem Header="数据库" Command="{Binding NewDatabaseCommand}"></MenuItem>
+                        <MenuItem Header="日期" Command="{Binding AddDateItemCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                        <MenuItem Header="姓名" Command="{Binding AddNameItemCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="打开" Command="{Binding OpenDatabaseCommand}">
                     </MenuItem>
                     <Separator></Separator>
-                    <MenuItem Header="保存" Command="{Binding SaveCommand}"></MenuItem>
+                    <MenuItem Header="保存" Command="{Binding SaveCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                    <MenuItem Header="另存为" IsEnabled="{Binding FileOpened}"></MenuItem>
                     <Separator></Separator>
-                    <MenuItem Header="导入" Command="{Binding ImportCommand}"></MenuItem>
-                    <MenuItem Header="导出" Command="{Binding LegacyExportCommand}"></MenuItem>
+                    <MenuItem Header="关闭" Command="{Binding CloseDatabaseCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
                     <Separator></Separator>
-                    <MenuItem Header="输出总榜" Command="{Binding ExportCommand}"></MenuItem>
+                    <MenuItem Header="导入" Command="{Binding ImportCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                    <MenuItem Header="导出" Command="{Binding LegacyExportCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
                     <Separator></Separator>
-                    <MenuItem Header="在系统中打开源文件" Command="{Binding OpenInSystemCommand}"></MenuItem>
+                    <MenuItem Header="输出总榜" Command="{Binding ExportCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
                     <Separator></Separator>
-                    <MenuItem Header="重建数据库" Command="{Binding RebuildDatabaseCommand}"></MenuItem>
+                    <MenuItem Header="在系统中打开源文件" Command="{Binding OpenInSystemCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
                     <Separator></Separator>
-                    <MenuItem Header="刷新" Command="{Binding RefreshCommand}"></MenuItem>
-                    <MenuItem Header="重启" Command="{Binding RestartCommand}"></MenuItem>
+                    <MenuItem Header="重建数据库" Command="{Binding RebuildDatabaseCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="刷新" Command="{Binding RefreshCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                    <MenuItem Header="重启" Command="{Binding RestartCommand}" ></MenuItem>
                     <MenuItem Header="退出" Command="{Binding ExitCommand}"></MenuItem>
                 </MenuItem>
                 <MenuItem Background="Transparent">
                     <MenuItem.Header>
                         <TextBlock Foreground="White">工具</TextBlock>
                     </MenuItem.Header>
-                    <MenuItem Header="图表" Command="{Binding OpenOxyPlotCommand}"></MenuItem>
-                    <MenuItem Header="原始视图" Command="{Binding RawViewCommand}"></MenuItem>
-                    <MenuItem Header="SQL查询" Command="{Binding SQLCommand}"></MenuItem>
-                    <MenuItem Header="调试" Command="{Binding DebugCommand}"></MenuItem>
+                    <MenuItem Header="图表" Command="{Binding OpenOxyPlotCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                    <MenuItem Header="原始视图" Command="{Binding RawViewCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                    <MenuItem Header="SQL查询" Command="{Binding SQLCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
+                    <MenuItem Header="调试" Command="{Binding DebugCommand}" IsEnabled="{Binding FileOpened}"></MenuItem>
                     <MenuItem Header="选项" Command="{Binding SettingsCommand}"></MenuItem>
                 </MenuItem>
                 <MenuItem Background="Transparent">
@@ -96,8 +105,11 @@
                 </StackPanel>
             </StatusBarItem>-->
         </StatusBar>
-        <TabControl Style="{DynamicResource MahApps.Styles.TabControl.Animated}" TabStripPlacement="Left" DockPanel.Dock="Top">
-
+        <Grid  Visibility="{Binding FileNotOpen,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <v:WelcomeView>
+            </v:WelcomeView>
+        </Grid>
+        <TabControl  Visibility="{Binding FileOpened,Converter={StaticResource BooleanToVisibilityConverter}}" Style="{DynamicResource MahApps.Styles.TabControl.Animated}" TabStripPlacement="Left" DockPanel.Dock="Top">
             <mah:MetroTabItem Header="日期">
                 <v:DateItemView>
 

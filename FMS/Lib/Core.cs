@@ -52,6 +52,26 @@ namespace FMS.Lib
         public ObservableCollection<NameItem> ObservableCollectionOfNameItems { get; set; }
         public DataBase DataBase { get; set; }
 
+        public Core()
+        {
+            Items = new();
+            Dates = new();
+            //SpecialList = GetSpecialList();
+            SpecialList = new List<Item>();
+            NameItems = GroupByName(Items);
+            AnalyzeChange(NameItems);
+            DateItems = GroupByDate(Items);
+            Names = GetNames();
+            //DescDateItems = DateItems.OrderByDescending(x => x.DigitalDate).ToList();
+            //FavoriteGroups = GetFavoriteGroups();
+            FavoriteGroups = new Dictionary<string, List<string>>();
+            //BlackList = GetBlackList();
+            BlackList = new List<string>();
+            ObservableCollectionOfDateItems = new ObservableCollection<DateItem>(DateItems);
+            ObservableCollectionOfNameItems = new ObservableCollection<NameItem>(NameItems);
+            //BenchmarkPoint = 0;
+            //MessageBox.Show(Items.Count.ToString());
+        }
         public Core(string url)
         {
             Backup(BackupUrl);
@@ -728,7 +748,7 @@ namespace FMS.Lib
         }
         public void Backup(string url)
         {
-            File.Copy(url, BackupUrl, true);
+            //File.Copy(url, BackupUrl, true);
         }
         void Recovery(string url)
         {

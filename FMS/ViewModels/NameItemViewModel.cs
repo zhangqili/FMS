@@ -110,6 +110,7 @@ namespace FMS.ViewModels
         
         public NameItemViewModel()
         {
+            Global.NameItemViewModel = this;
             AddToChartCommand = new DelegateCommand(AddToChart);
             AnalyseCommand = new DelegateCommand(Analyse);
             NameItems = Global.Core.ObservableCollectionOfNameItems;

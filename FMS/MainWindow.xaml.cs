@@ -31,8 +31,10 @@ namespace FMS
         private StartWindow startWindow;
         public MainWindow()
         {
+            
             //NewWindowHandler(null,null);
             //Hide();
+            /*
             try
             {
                 //Global.Core = new Core(AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "core.xlsx");
@@ -45,6 +47,7 @@ namespace FMS
                 new TroubleshootingWindow(e.Message).ShowDialog();
 
             }
+            */
             InitializeComponent();
             //Show();
             //Activate();

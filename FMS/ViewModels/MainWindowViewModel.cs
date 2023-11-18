@@ -33,6 +33,28 @@ namespace FMS.ViewModels
             }
         }
 
+        private bool fileOpened;
+
+        public bool FileOpened
+        {
+            get { return fileOpened; }
+            set
+            {
+                fileOpened = value;
+                OnPropertyChanged(nameof(FileOpened));
+            }
+        }
+        private bool fileNotOpen;
+
+        public bool FileNotOpen
+        {
+            get { return fileNotOpen; }
+            set
+            {
+                fileNotOpen = value;
+                OnPropertyChanged(nameof(FileNotOpen));
+            }
+        }
 
         public DelegateCommand AddDateItemCommand { get; set; }
 
@@ -273,8 +295,53 @@ namespace FMS.ViewModels
                     break;
             }
         }
+
+        public DelegateCommand OpenDatabaseCommand { get; set; }
+
+        public void OpenDatabase(object parameter)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".db";
+            dlg.Filter = "Sqlite数据库|*.db";
+            dlg.Title = "打开";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                try
+                {
+                    Global.Core = new Core(new DataBase(dlg.FileName));
+                    Global.DateItemViewModel.DateItems = Global.Core.ObservableCollectionOfDateItems;
+                    Global.NameItemViewModel.NameItems = Global.Core.ObservableCollectionOfNameItems;
+                    FileOpened = true;
+                    FileNotOpen = false;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.HelpLink);
+                }
+            }
+            Properties.Settings.Default.DatabasePath = dlg.FileName;
+            Properties.Settings.Default.Save();
+        }
+
+        public DelegateCommand NewDatabaseCommand { get; set; }
+
+        private void NewDatabase(object parameter)
+        {
+        }
+        public DelegateCommand CloseDatabaseCommand { get; set; }
+
+        private void CloseDatabase(object parameter)
+        {
+            Global.Core = new Core();
+            Global.DateItemViewModel.DateItems = Global.Core.ObservableCollectionOfDateItems;
+            Global.NameItemViewModel.NameItems = Global.Core.ObservableCollectionOfNameItems;
+            FileOpened = false;
+            FileNotOpen = true;
+        }
         public MainWindowViewModel()
         {
+            Global.MainWindowViewModel = this;
             AddDateItemCommand = new DelegateCommand(AddDateItem);
             AddNameItemCommand = new DelegateCommand(AddNameItem);
             SaveCommand = new DelegateCommand(Save);
@@ -292,6 +359,21 @@ namespace FMS.ViewModels
             SQLCommand = new DelegateCommand(SQL);
             RefreshCommand = new DelegateCommand(Refresh);
             RebuildDatabaseCommand = new DelegateCommand(RebuildDatabase);
+            OpenDatabaseCommand = new DelegateCommand(OpenDatabase);
+            NewDatabaseCommand = new DelegateCommand(NewDatabase);
+            CloseDatabaseCommand = new DelegateCommand(CloseDatabase);
+            try
+            {
+                Global.Core = new Core(new DataBase(Properties.Settings.Default.DatabasePath));
+                FileNotOpen = false;
+                FileOpened = true;
+            }
+            catch (Exception)
+            {
+                Global.Core = new();
+                FileNotOpen = true;
+            }
+
             GetStartTime();
             Memory = (int)(Process.GetCurrentProcess().WorkingSet64 / 1024/1024);
         }
