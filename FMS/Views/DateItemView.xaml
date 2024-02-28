@@ -37,7 +37,7 @@
                 mah:TextBoxHelper.Watermark="过滤"
                 Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
-            <ListBox Grid.Row="1" x:Name="listBox" ItemsSource="{Binding DateItems}">
+            <ListBox Grid.Row="1" x:Name="listBox" ItemsSource="{Binding DateItems}" SelectedIndex="{Binding SelectedIndex}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -49,23 +49,43 @@
             </ListBox>
             </Grid>
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"></GridSplitter>
-        <ListView Grid.Column="2" ItemsSource="{Binding ElementName=listBox,Path=SelectedItem.EffectiveListByDate}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="姓名" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
-                    <GridViewColumn Header="分数" Width="50" DisplayMemberBinding="{Binding Point}"></GridViewColumn>
-                    <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}"></GridViewColumn>
-                    <GridViewColumn Header="变化" Width="40">
-                        <GridViewColumn.DisplayMemberBinding>
-                            <MultiBinding Converter="{StaticResource ChangeConverter}">
-                                <Binding Path="Change"></Binding>
-                                <Binding Path="Code"></Binding>
-                            </MultiBinding>
-                        </GridViewColumn.DisplayMemberBinding>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <TabControl Grid.Column="2" Style="{StaticResource MahApps.Styles.TabControl.Animated}">
+            <TabItem Header="本周数据">
+                <ListView ItemsSource="{Binding ElementName=listBox,Path=SelectedItem.EffectiveListByDate}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="姓名" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                            <GridViewColumn Header="分数" Width="50" DisplayMemberBinding="{Binding Point}"></GridViewColumn>
+                            <GridViewColumn Header="排名" DisplayMemberBinding="{Binding Rank}"></GridViewColumn>
+                            <GridViewColumn Header="变化" Width="40">
+                                <GridViewColumn.DisplayMemberBinding>
+                                    <MultiBinding Converter="{StaticResource ChangeConverter}">
+                                        <Binding Path="Change"></Binding>
+                                        <Binding Path="Code"></Binding>
+                                    </MultiBinding>
+                                </GridViewColumn.DisplayMemberBinding>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="趋势" Height="39" VerticalAlignment="Top">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <TextBlock Text="修正" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                        <mah:NumericUpDown Value="{Binding AdjustValue}"></mah:NumericUpDown>
+                    </StackPanel>
+                    <ListView Grid.Column="2" ItemsSource="{Binding WeightedOverallRankingList}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="姓名" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                                <GridViewColumn Header="分数" Width="50" DisplayMemberBinding="{Binding Point,StringFormat={}{0:F1}}"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
         <GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch"></GridSplitter>
         <Grid Grid.Column="4">
             <Grid.RowDefinitions>

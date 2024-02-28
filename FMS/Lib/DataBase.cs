@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace FMS.Lib
 {
@@ -112,10 +113,8 @@ namespace FMS.Lib
             Command.CommandText = stm;
             return Command.ExecuteNonQuery();
         }
-
         public void Update(List<Item> items, List<Date> dates)
         {
-
             ExecuteNonQuery("delete from source");
             ExecuteNonQuery("delete from title");
             SQLiteCommand cmd = new SQLiteCommand(Connection);
@@ -162,6 +161,59 @@ namespace FMS.Lib
             }
         }
 
+        public void AddSQLCode(string code)
+        {
+            SQLiteCommand cmd = new SQLiteCommand(Connection);
+            cmd.CommandText = "pragma synchronous = 0";
+            cmd.ExecuteNonQuery();
+            using (SQLiteTransaction tran = Connection.BeginTransaction())
+            {
+                try
+                {
+                    using (SQLiteCommand command = new SQLiteCommand("insert into code values( @code )", Connection))
+                    {
+                        if (code != null || code != "")
+                        {
+                            command.Parameters.Add(new SQLiteParameter("@code", code));
+                            command.ExecuteNonQuery();
+                            command.Parameters.Clear();
+                        }
+                    }
+                    tran.Commit();
+                }
+                catch
+                {
+                    tran.Rollback();
+                    throw;
+                }
+            }
+        }
+        public void RemoveSQLCode(string code)
+        {
+            SQLiteCommand cmd = new SQLiteCommand(Connection);
+            cmd.CommandText = "pragma synchronous = 0";
+            cmd.ExecuteNonQuery();
+            using (SQLiteTransaction tran = Connection.BeginTransaction())
+            {
+                try
+                {
+                    if (code != null || code != "")
+                    {
+                        using (SQLiteCommand command = new SQLiteCommand("delete from code where code = \"" + code +"\"", Connection))
+                        {
+                            command.ExecuteNonQuery();
+                            command.Parameters.Clear();
+                        }
+                    }
+                    tran.Commit();
+                }
+                catch
+                {
+                    tran.Rollback();
+                    throw;
+                }
+            }
+        }
         public void Insert(List<Item> items)
         {
             foreach (var VARIABLE in items)
@@ -181,6 +233,10 @@ namespace FMS.Lib
         public List<Date> GetDates()
         {
             return Transformat.ToDates(ExecuteReader(@"select * from title"));
+        }
+        public List<string> GetCodes()
+        {
+            return Transformat.ToCodes(ExecuteReader(@"select * from code"));
         }
         public static DateTime DigitalDateToDateTime(int x)
         {
@@ -207,6 +263,26 @@ namespace FMS.Lib
             sqLiteCommand.CommandText = cmd;
             sqLiteCommand.ExecuteNonQuery();
             cmd = "CREATE TABLE \"title\" (\r\n\t\"date\"\tINTEGER,\r\n\t\"title\"\tTEXT\r\n)";
+            sqLiteCommand.CommandText = cmd;
+            sqLiteCommand.ExecuteNonQuery();
+            sqLiteConnection.Close();
+            sqLiteConnection.Dispose();
+        }
+        public static void NewDatabase(string filePath)
+        {
+            string cmd;
+            string cs = @"URI=file:" + filePath;
+            SQLiteConnection sqLiteConnection = new SQLiteConnection(cs);
+            sqLiteConnection.Open();
+            SQLiteCommand sqLiteCommand = new SQLiteCommand(sqLiteConnection);
+            cmd =
+                "CREATE TABLE \"source\" (\r\n\t\"name\"\tTEXT,\r\n\t\"point\"\tNUMERIC,\r\n\t\"rank\"\tINTEGER,\r\n\t\"date\"\tINTEGER,\r\n\t\"change\"\tINTEGER\r\n, \"code\"\tINTEGER)";
+            sqLiteCommand.CommandText = cmd;
+            sqLiteCommand.ExecuteNonQuery();
+            cmd = "CREATE TABLE \"title\" (\r\n\t\"date\"\tINTEGER,\r\n\t\"title\"\tTEXT\r\n)";
+            sqLiteCommand.CommandText = cmd;
+            sqLiteCommand.ExecuteNonQuery();
+            cmd = "CREATE TABLE \"code\" (\r\n\t\"code\"\tTEXT NOT NULL,\r\n\tPRIMARY KEY(\"code\")\r\n)";
             sqLiteCommand.CommandText = cmd;
             sqLiteCommand.ExecuteNonQuery();
             sqLiteConnection.Close();
@@ -248,6 +324,15 @@ namespace FMS.Lib
                 dates.Add(d);
             }
             return dates;
+        }
+        public static List<string> ToCodes(DataTable dt)
+        {
+            List<string> codes = new List<string>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                codes.Add(dr["code"].ToString());
+            }
+            return codes;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FMS.Lib;
 
 namespace FMS.Models
 {
@@ -32,7 +33,20 @@ namespace FMS.Models
             get
             {
                 if (ListByName != null)
+                {
+                    /*
+                    double sum = 0.0;
+                    double day = (Core.DigitalDateToDateTime(ListByName.Last().DigitalDate)- Core.DigitalDateToDateTime(ListByName[0].DigitalDate)).Days;
+                    for (int i = 0; i < ListByName.Count; i++)
+                    {
+                        double dayc = (Core.DigitalDateToDateTime(ListByName[i].DigitalDate) - Core.DigitalDateToDateTime(ListByName[0].DigitalDate)).Days;
+                        //sum += ListByName[i].Point * Convert.ToDouble(i) / ListByName.Count;
+                        sum += ListByName[i].Point * dayc / day;
+                    }
+                    */
                     return (EffectiveListByName.Sum(x => x.Point) + CustomValue);
+                    //return sum+ CustomValue;
+                }
                 else
                     return CustomValue;
             }

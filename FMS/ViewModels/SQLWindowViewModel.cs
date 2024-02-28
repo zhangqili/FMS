@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -54,6 +55,17 @@ namespace FMS.ViewModels
             }
         }
 
+        private ObservableCollection<string> codes;
+        public ObservableCollection<string> Codes
+        {
+            get { return codes; }
+            set
+            {
+                codes = value;
+                OnPropertyChanged(nameof(Codes));
+            }
+        }
+
         public DelegateCommand ExecuteCommand { get; set; }
 
         void Execute(object parameter)
@@ -78,7 +90,7 @@ namespace FMS.ViewModels
                 DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             dlg.DefaultExt = ".xlsx";
             dlg.Filter = "Excel 工作簿|*.xlsx";
-            dlg.Title = "输出总榜";
+            dlg.Title = "输出";
             Nullable<bool> result = dlg.ShowDialog();
             if (result == true)
             {
@@ -117,15 +129,40 @@ namespace FMS.ViewModels
 
         }
 
+        public DelegateCommand AddCommand { get; set; }
+
+        void Add(object parameter)
+        {
+            if (!Codes.ToList().Exists(x => x == SQLCode))
+            {
+                Codes.Add(SQLCode);
+                Global.Core.DataBase.AddSQLCode(SQLCode);
+            };
+        }
+        public DelegateCommand RemoveCommand { get; set; }
+        void Remove(object parameter)
+        {
+            Codes.Remove(SQLCode);
+            Global.Core.DataBase.RemoveSQLCode(SQLCode);
+        }
+        public DelegateCommand SelectCommand { get; set; }
+        void Select(object parameter)
+        {
+            SQLCode = (string)parameter;
+        }
         internal SQLWindowViewModel()
         {
             DataTable = new();
-            DataBase = new();
+            DataBase = Global.Core.DataBase;
+            Codes = new ObservableCollection<string>(Global.Core.DataBase.GetCodes());
             Message = "";
             SQLCode = "SELECT * FROM source";
             Execute(null);
             ExecuteCommand = new DelegateCommand(Execute);
             ExportCommand = new DelegateCommand(Export);
+            AddCommand = new DelegateCommand(Add);
+            RemoveCommand = new DelegateCommand(Remove);
+            SelectCommand = new DelegateCommand(Select);
         }
     }
 }

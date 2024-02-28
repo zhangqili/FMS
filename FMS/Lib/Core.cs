@@ -338,6 +338,9 @@ namespace FMS.Lib
             }
             NameItems = GroupByName(Items);
             AnalyzeChange(NameItems);
+            DateItems = GroupByDate(Items);
+            ObservableCollectionOfDateItems = new ObservableCollection<DateItem>(DateItems);
+            ObservableCollectionOfNameItems = new ObservableCollection<NameItem>(NameItems);
             Save();
         }
 

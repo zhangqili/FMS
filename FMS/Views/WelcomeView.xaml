@@ -14,8 +14,17 @@
         <StackPanel>
             <TextBlock FontSize="36">欢迎</TextBlock>
             <StackPanel Orientation="Horizontal">
-                <Button Width="100" Height="100" Margin="3">新建</Button>
-                <Button Width="100" Height="100" Command="{Binding OpenCommand}" Margin="3">打开</Button>
+                <Button Width="100" Height="100" Command="{Binding NewCommand}"  Margin="3">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" FontSize="48"></TextBlock>
+                        <TextBlock HorizontalAlignment="Center">新建</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Width="100" Height="100" Command="{Binding OpenCommand}" Margin="3">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" FontSize="48"></TextBlock>
+                        <TextBlock HorizontalAlignment="Center">打开</TextBlock>
+                    </StackPanel></Button>
             </StackPanel>
         </StackPanel>
     </Grid>

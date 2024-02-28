@@ -19,8 +19,7 @@ namespace FMS.ViewModels
         public DelegateCommand NewCommand { get; set; }
         private void New(object parameter)
         {
-            DataBase.RebuildDatabase();
-            Global.Core = new Core(new DataBase());
+            Global.MainWindowViewModel.NewDatabase(null);
         }
 
         public DelegateCommand OpenCommand { get; set; }

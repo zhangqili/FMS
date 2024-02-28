@@ -81,6 +81,9 @@
                     <TextBlock>启动用时:</TextBlock>
                     <TextBlock Text="{Binding StartTime}"></TextBlock>
                     <TextBlock>s</TextBlock>
+                    <TextBlock> </TextBlock>
+                    <TextBlock>数据库路径:</TextBlock>
+                    <TextBlock Text="{Binding DatabasePath}"></TextBlock>
                 </StackPanel>
             </StatusBarItem>
             <!--<StatusBarItem>

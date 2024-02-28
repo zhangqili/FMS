@@ -55,6 +55,17 @@ namespace FMS.ViewModels
                 OnPropertyChanged(nameof(FileNotOpen));
             }
         }
+        private string databasePath;
+
+        public string DatabasePath
+        {
+            get { return databasePath; }
+            set
+            {
+                databasePath = value;
+                OnPropertyChanged(nameof(DatabasePath));
+            }
+        }
 
         public DelegateCommand AddDateItemCommand { get; set; }
 
@@ -160,40 +171,44 @@ namespace FMS.ViewModels
         {
             Window window = new Window();
             TextBox tb = new TextBox();
-            tb.Text = "";
+            StringBuilder stringBuilder = new StringBuilder();
+            string nameList = 
+@"艾尔卡木
+李章琦
+易少康
+钟志炜
+王鑫志
+陈泽龙
+寇泽浩
+许昂然
+王睿哲
+张子航
+张艺怀
+熊文轩
+方逸唯
+崔文杰
+聂子鹏
+王熙程
+刘昱然
+李超鹏";
+            var list = nameList.Split("\r\n").ToList();
             foreach (var VARIABLE in Global.Core.NameItems)
             {
                 int contionous = 0;
                 string dateStart = "";
                 string dateEnd = "";
-                for (int i = 0; i < VARIABLE.EffectiveListByName.Count; i++)
+                if (list.Exists(x=>x==VARIABLE.Name))
                 {
-                    if (VARIABLE.EffectiveListByName[i].Rank>0&& VARIABLE.EffectiveListByName[i].Rank<=3)
-                    {
-                        if (contionous == 0)
-                        {
-                            dateStart = VARIABLE.EffectiveListByName[i].DigitalDate.ToString();
-                        }
-
-                        contionous++;
-                    }
-                    else
-                    {
-                        if (contionous > 0)
-                        {
-                            dateEnd = VARIABLE.EffectiveListByName[i-1].DigitalDate.ToString();
-                            tb.Text += String.Format("{0}\t{1}\t{2}\n",VARIABLE.Name,dateStart+"-"+dateEnd,contionous);
-                            contionous = 0;
-                        }
-                    }
-                }
-                if(contionous>0)
-                {
-                    dateEnd = VARIABLE.EffectiveListByName.Last().DigitalDate.ToString();
-                    tb.Text += String.Format("{0}\t{1}\t{2}\n", VARIABLE.Name, dateStart + "-" + dateEnd, contionous);
-                    contionous = 0;
+                    stringBuilder.Append(VARIABLE.Name+",");
+                    stringBuilder.Append(VARIABLE.Peak + ",");
+                    stringBuilder.Append(VARIABLE.EffectiveListByName.Count(x => x.Rank <= 1) + ",");
+                    stringBuilder.Append(VARIABLE.EffectiveListByName.Count(x => x.Rank <= 2) + ",");
+                    stringBuilder.Append(VARIABLE.EffectiveListByName.Count(x => x.Rank <= 3) + ",");
+                    stringBuilder.Append(VARIABLE.EffectiveListByName.Count+"/"+ (VARIABLE.ListByName.Count - VARIABLE.ListByName.FindIndex(x => x.DigitalDate == int.Parse(VARIABLE.FirstDate.ToString("yyyyMMdd")))) + ",");
+                    stringBuilder.Append((Convert.ToDouble(VARIABLE.EffectiveListByName.Count)/(VARIABLE.ListByName.Count-VARIABLE.ListByName.FindIndex(x=>x.DigitalDate==int.Parse(VARIABLE.FirstDate.ToString("yyyyMMdd"))))*100).ToString("##.#") + "%\n");
                 }
             }
+            tb.Text = stringBuilder.ToString();
             //foreach (var item in Global.Core.NameItems)
             //{
             //    tb.Text += string.Format("{0}\t{1}\n", item.Name,
@@ -312,6 +327,7 @@ namespace FMS.ViewModels
                     Global.Core = new Core(new DataBase(dlg.FileName));
                     Global.DateItemViewModel.DateItems = Global.Core.ObservableCollectionOfDateItems;
                     Global.NameItemViewModel.NameItems = Global.Core.ObservableCollectionOfNameItems;
+                    DatabasePath = dlg.FileName;
                     FileOpened = true;
                     FileNotOpen = false;
                 }
@@ -326,8 +342,24 @@ namespace FMS.ViewModels
 
         public DelegateCommand NewDatabaseCommand { get; set; }
 
-        private void NewDatabase(object parameter)
+        public void NewDatabase(object parameter)
         {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.FileName = "FMS";
+            dlg.DefaultExt = ".db";
+            dlg.Filter = "Sqlite数据库|*.db";
+            dlg.Title = "新建";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                DataBase.NewDatabase(dlg.FileName);
+                Global.Core = new Core(new DataBase(dlg.FileName));
+                Global.DateItemViewModel.DateItems = Global.Core.ObservableCollectionOfDateItems;
+                Global.NameItemViewModel.NameItems = Global.Core.ObservableCollectionOfNameItems;
+                DatabasePath = dlg.FileName;
+                FileOpened = true;
+                FileNotOpen = false;
+            }
         }
         public DelegateCommand CloseDatabaseCommand { get; set; }
 
@@ -336,6 +368,7 @@ namespace FMS.ViewModels
             Global.Core = new Core();
             Global.DateItemViewModel.DateItems = Global.Core.ObservableCollectionOfDateItems;
             Global.NameItemViewModel.NameItems = Global.Core.ObservableCollectionOfNameItems;
+            DatabasePath = "";
             FileOpened = false;
             FileNotOpen = true;
         }
@@ -365,6 +398,7 @@ namespace FMS.ViewModels
             try
             {
                 Global.Core = new Core(new DataBase(Properties.Settings.Default.DatabasePath));
+                DatabasePath = Properties.Settings.Default.DatabasePath;
                 FileNotOpen = false;
                 FileOpened = true;
             }

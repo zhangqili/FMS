@@ -75,11 +75,15 @@ namespace FMS.ViewModels
             if (MessageBox.Show("此操作将覆盖源文件","警告", MessageBoxButton.OKCancel, MessageBoxImage.Warning) ==MessageBoxResult.OK)
             {
                 Global.Core.Import(FilePath);
+                Global.DateItemViewModel.DateItems = Global.Core.ObservableCollectionOfDateItems;
+                Global.NameItemViewModel.NameItems = Global.Core.ObservableCollectionOfNameItems;
+                /*
                 Process p = new Process();
                 p.StartInfo.FileName = System.AppDomain.CurrentDomain.BaseDirectory + "FMS.exe";
                 p.StartInfo.UseShellExecute = false;
                 p.Start();
                 Application.Current.Shutdown();
+                */
             }
         }
 

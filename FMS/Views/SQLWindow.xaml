@@ -21,10 +21,22 @@
             <ToolBar>
                 <Button Command="{Binding ExecuteCommand}" Content="" ToolTip="Execute (F5)" FontFamily="Segoe MDL2 Assets"></Button>
                 <Button Command="{Binding ExportCommand}" Content="" ToolTip="Execute (Ctrl + S)" FontFamily="Segoe MDL2 Assets"></Button>
-                <mah:DropDownButton Content="历史记录" BorderThickness="0">
+            </ToolBar>
+            <ToolBar>
+                <Button Command="{Binding AddCommand}" Content="" ToolTip="Add" FontFamily="Segoe MDL2 Assets"></Button>
+                <Button Command="{Binding RemoveCommand}" Content="" ToolTip="Remove" FontFamily="Segoe MDL2 Assets"></Button>
+
+                <mah:DropDownButton x:Name="FavoriteCodes"  BorderThickness="0" ItemsSource="{Binding Codes}">
                     <mah:DropDownButton.Icon>
-                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14"></TextBlock>
+                        <TextBlock Text="" FontFamily="Segoe MDL2 Assets" FontSize="14"></TextBlock>
                     </mah:DropDownButton.Icon>
+                    <mah:DropDownButton.ItemContainerStyle>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Setter Property="Header" Value="{Binding}"/>
+                            <Setter Property="Command" Value="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                            <Setter Property="CommandParameter" Value="{Binding }"/>
+                        </Style>
+                    </mah:DropDownButton.ItemContainerStyle>
                 </mah:DropDownButton>
             </ToolBar>
         </ToolBarTray>
